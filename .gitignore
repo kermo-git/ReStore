@@ -457,3 +457,4 @@ API/store.db
 .gitignore
 API/store.db-wal
 API/store.db-shm
+Assets/*
