@@ -454,7 +454,6 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 API/appsettings.json
 API/store.db
-.gitignore
 API/store.db-wal
 API/store.db-shm
 Assets/*
