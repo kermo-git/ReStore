@@ -457,3 +457,29 @@ API/store.db
 API/store.db-wal
 API/store.db-shm
 Assets/*
+
+##
+## Client folder
+##
+
+# dependencies
+Client/node_modules
+Client/.pnp
+Client/.pnp.js
+
+# testing
+Client/coverage
+
+# production
+Client/build
+
+# misc
+Client/.DS_Store
+Client/.env.local
+Client/.env.development.local
+Client/.env.test.local
+Client/.env.production.local
+
+Client/npm-debug.log*
+Client/yarn-debug.log*
+Client/yarn-error.log*
