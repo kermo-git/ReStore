@@ -459,27 +459,27 @@ API/store.db-shm
 Assets/*
 
 ##
-## Client folder
+## client folder
 ##
 
 # dependencies
-Client/node_modules
-Client/.pnp
-Client/.pnp.js
+client/node_modules
+client/.pnp
+client/.pnp.js
 
 # testing
-Client/coverage
+client/coverage
 
 # production
-Client/build
+client/build
 
 # misc
-Client/.DS_Store
-Client/.env.local
-Client/.env.development.local
-Client/.env.test.local
-Client/.env.production.local
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
 
-Client/npm-debug.log*
-Client/yarn-debug.log*
-Client/yarn-error.log*
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
