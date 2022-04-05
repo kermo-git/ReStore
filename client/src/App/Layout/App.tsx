@@ -1,37 +1,46 @@
-import { Container, CssBaseline } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import AboutPage from "../../Features/About/AboutPage";
 import Catalog from "../../Features/Catalog/Catalog";
-import { Product } from "../Models/Product";
+import ProductDetailsPage from "../../Features/Catalog/ProductDetails";
+import ContactPage from "../../Features/Contact/ContactPage";
+import HomePage from "../../Features/Home/HomePage";
 import Header from "./Header";
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
-    const [products, setProducts] = useState<Product[]>([])
-
-    useEffect(() => {
-        fetch("http://localhost:5000/api/products")
-        .then(response => response.json())
-        .then(data => setProducts(data))
-    }, [])
-
-    function addProduct() {
-        const nextProductID = products.length + 1
-
-        setProducts([...products, {
-            id: nextProductID,
-            name: "Product" + nextProductID,
-            brand: "Some brand",
-            description: "Just a product",
-            price: nextProductID * 100,
-            pictureURL: "http://picsum.photos/200"
-        }])
+    const [darkMode, setDarkMode] = useState(false)
+    
+    const theme = createTheme({
+        palette: {
+            mode: darkMode ? "dark" : "light",
+            background: {
+                default: darkMode ? "#121212" : "#EAEAEA"
+            }
+        }
+    })
+    
+    function toggleDarkMode() {
+        setDarkMode(!darkMode)
     }
 
     return (<>
-        <CssBaseline/>
-        <Header/>
-        <Container>
-            <Catalog products={products} addProduct={addProduct}/>
-        </Container>
+        <ThemeProvider theme={theme}>
+            <ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
+            <CssBaseline/>
+            <Header isDarkMode={darkMode} toggleDarkMode={toggleDarkMode}/>
+            <Container>
+                <Routes>
+                    <Route path="/" element={<HomePage/>}/>
+                    <Route path="/about" element={<AboutPage/>}/>
+                    <Route path="/contact" element={<ContactPage/>}/>
+                    <Route path="/catalog" element={<Catalog/>}/>
+                    <Route path="/catalog/:id" element={<ProductDetailsPage/>}/>
+                </Routes>
+            </Container>
+        </ThemeProvider>
     </>)
 }
 
