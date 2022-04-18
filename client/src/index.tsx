@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App/Layout/App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
+export const history = createBrowserHistory()
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <HistoryRouter history={history}>
             <App/>
-        </BrowserRouter>
+        </HistoryRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

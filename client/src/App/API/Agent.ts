@@ -1,3 +1,5 @@
+import { history } from "../.."
+
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { toast } from "react-toastify"
 
@@ -10,13 +12,21 @@ axios.interceptors.response.use(
         const {data, status} = error.response!
         switch (status) {
             case 400:
+                if (data.errors) {
+                    const errorMessages: string[][] = []
+
+                    for (const key in data.errors) {
+                        errorMessages.push(data.errors[key])
+                    }
+                    throw errorMessages.flat()
+                }
                 toast.error(data.title)
                 break
             case 401:
                 toast.error(data.title)
                 break
             case 500:
-                toast.error(data.title)
+                history.push("/server-error", data)
                 break
             default:
                 console.log("Caught by interceptor")
