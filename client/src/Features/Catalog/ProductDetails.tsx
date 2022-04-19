@@ -2,6 +2,7 @@ import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, T
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Agent from "../../App/API/Agent";
+import NotFound from "../../App/Errors/NotFound";
 import { Product } from "../../App/Models/Product";
 
 export default function ProductDetailsPage() {
@@ -25,9 +26,7 @@ export default function ProductDetailsPage() {
 
     if (!product)
         return (
-            <Typography variant="h1">
-                Product not found
-            </Typography>
+            <NotFound/>
         )
 
     return (
