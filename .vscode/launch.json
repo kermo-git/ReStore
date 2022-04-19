@@ -30,6 +30,21 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+		{
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}"
+        },		
+		{
+            "type": "pwa-chrome",
+            "request": "attach",
+            "name": "Attach to Chrome",
+            "url": "http://localhost:3000",
+            "port": 9222,
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
