@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Agent from "../../App/API/Agent";
 import NotFound from "../../App/Errors/NotFound";
+import Loading from "../../App/Layout/Loading";
 import { Product } from "../../App/Models/Product";
 
 export default function ProductDetailsPage() {
@@ -17,12 +18,7 @@ export default function ProductDetailsPage() {
         .finally(() => setLoading(false))
     }, [id])
 
-    if (loading)
-        return (
-            <Typography variant="h1">
-                Loading ...
-            </Typography>
-        )
+    if (loading) return <Loading message="Loading product ..."/>
 
     if (!product)
         return (
