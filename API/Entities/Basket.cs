@@ -4,7 +4,7 @@ namespace API.Entities {
     public class Basket {
         public int Id { get; set; }
         public string BuyerId { get; set; }
-		public List<BasketItem> Items = new();
+		public List<BasketItem> Items { get; set; } = new();
 		
 		public void AddItem(Product product, int quantity) {
 			if (Items.TrueForAll(item => item.ProductId != product.Id)) {
