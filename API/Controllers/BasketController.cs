@@ -16,27 +16,15 @@ namespace API.Controllers {
 			this._context = context;
 		}
 
-		[HttpGet]
+		[HttpGet(Name = "Getbasket")]
 		public async Task<ActionResult<BasketDTO>> GetBasket() {
 			var basket = await RetrieveBasket();
 			if (basket == null) return NotFound();
-			return new BasketDTO{
-				Id = basket.Id,
-				BuyerId = basket.BuyerId,
-				Items = basket.Items.Select(item => new BasketItemDTO{
-					ProductId = item.ProductId,
-					Name = item.Product.Name,
-					Price = item.Product.Price,
-					PictureURL = item.Product.PictureURL,
-					Brand = item.Product.Brand,
-					Type = item.Product.Type,
-					Quantity = item.Quantity																									
-				}).ToList()
-			};
+			return MapBasketToDTO(basket);
 		}
 
-		[HttpPost] // api/basket?productId=3&quantity=2
-		public async Task<ActionResult> AddItemToBasket(int productId, int quantity) {
+		[HttpPost]
+		public async Task<ActionResult<BasketDTO>> AddItemToBasket(int productId, int quantity) {
 			var basket = await RetrieveBasket();
 			if (basket == null) basket = CreateBasket();
 
@@ -46,7 +34,7 @@ namespace API.Controllers {
 			basket.AddItem(product, quantity);
 			
 			bool result = await _context.SaveChangesAsync() > 0;
-			if (result) return StatusCode(201);
+			if (result) return CreatedAtRoute("GetBasket", MapBasketToDTO(basket));
 			return BadRequest(new ProblemDetails{Title = "Problem saving item to basket"});
 		}
 
@@ -77,5 +65,21 @@ namespace API.Controllers {
 			_context.Baskets.Add(basket);
 			return basket;
 		}	
+
+		private BasketDTO MapBasketToDTO(Basket basket) {
+			return new BasketDTO{
+				Id = basket.Id,
+				BuyerId = basket.BuyerId,
+				Items = basket.Items.Select(item => new BasketItemDTO{
+					ProductId = item.ProductId,
+					Name = item.Product.Name,
+					Price = item.Product.Price,
+					PictureURL = item.Product.PictureURL,
+					Brand = item.Product.Brand,
+					Type = item.Product.Type,
+					Quantity = item.Quantity																									
+				}).ToList()
+			};			
+		}		
     }
 }
