@@ -1,5 +1,5 @@
 import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AboutPage from "../../Features/About/AboutPage";
@@ -12,9 +12,25 @@ import "react-toastify/dist/ReactToastify.css"
 import ServerError from "../Errors/ServerError";
 import NotFound from "../Errors/NotFound";
 import BasketPage from "../../Features/Basket/BasketPage";
+import { useStoreContext } from "../Context/StoreContext";
+import { getCookie } from "../Utils";
+import Agent from "../API/Agent";
+import Loading from "./Loading";
 
 function App() {
+	const {setBasket} = useStoreContext()
+	const [loading, setLoading] = useState(true)
     const [darkMode, setDarkMode] = useState(false)
+
+	useEffect(() => {
+		const buyerId = getCookie("buyerId")
+		if (buyerId) {
+			Agent.Basket.get()
+			.then(basket => setBasket(basket))
+			.catch(error => console.log(error))
+			.finally(() => setLoading(false))
+		}
+	}, [setBasket])
     
     const theme = createTheme({
         palette: {
@@ -28,6 +44,8 @@ function App() {
     function toggleDarkMode() {
         setDarkMode(!darkMode)
     }
+
+	if (loading) return <Loading message="Initializing app ..."/>
 
     return (<>
         <ThemeProvider theme={theme}>
