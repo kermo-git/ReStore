@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Agent from "../../App/API/Agent";
 import Loading from "../../App/Layout/Loading";
 import { Basket } from "../../App/Models/Basket";
-
-const formatPrice = (price: number) => (price / 100).toFixed(2) + "€"
+import { formatPrice } from "../../App/Utils";
 
 export default function BasketPage() {
 	const [loading, setLoading] = useState<boolean>(true)

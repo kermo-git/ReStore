@@ -5,6 +5,7 @@ import Agent from "../../App/API/Agent";
 import NotFound from "../../App/Errors/NotFound";
 import Loading from "../../App/Layout/Loading";
 import { Product } from "../../App/Models/Product";
+import { formatPrice } from "../../App/Utils";
 
 export default function ProductDetailsPage() {
     const {id} = useParams<{id: string}>()
@@ -34,7 +35,7 @@ export default function ProductDetailsPage() {
                 <Typography variant="h3">{product.name}</Typography>
                 <Divider sx={{mb: 2}}/>
                 <Typography variant="h4" color="secondary">
-                    {(product.price / 100).toFixed(2)} €
+                    {formatPrice(product.price)}
                 </Typography>
                 <TableContainer>
                     <Table>

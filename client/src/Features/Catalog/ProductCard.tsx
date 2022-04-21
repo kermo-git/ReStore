@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Agent from "../../App/API/Agent";
 import { Product } from "../../App/Models/Product";
+import { formatPrice } from "../../App/Utils";
 
 interface Props {
     product: Product
@@ -46,7 +47,7 @@ export default function ProductCard({product}: Props) {
             />
             <CardContent>
                 <Typography gutterBottom color="secondary" variant="h5">
-                    {(product.price / 100).toFixed(2)}€
+                    {formatPrice(product.price)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {product.brand} / {product.type}
