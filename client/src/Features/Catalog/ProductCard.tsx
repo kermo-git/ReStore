@@ -3,6 +3,7 @@ import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Agent from "../../App/API/Agent";
+import { useStoreContext } from "../../App/Context/StoreContext";
 import { Product } from "../../App/Models/Product";
 import { formatPrice } from "../../App/Utils";
 
@@ -12,10 +13,12 @@ interface Props {
 
 export default function ProductCard({product}: Props) {
 	const [loading, setLoading] = useState<boolean>(false)
+	const {setBasket} = useStoreContext()
 
 	function addToCart() {
 		setLoading(true)
 		Agent.Basket.addItem(product.id)
+			.then(basket => setBasket(basket))
 			.catch(error => console.log(error))
 			.finally(() => setLoading(false))
 	}
