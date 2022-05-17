@@ -2,13 +2,14 @@ import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/materia
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
+
 import AboutPage from "../../Features/About/AboutPage";
 import Catalog from "../../Features/Catalog/Catalog";
 import ProductDetailsPage from "../../Features/Catalog/ProductDetails";
 import ContactPage from "../../Features/Contact/ContactPage";
 import HomePage from "../../Features/Home/HomePage";
 import Header from "./Header";
-import "react-toastify/dist/ReactToastify.css"
 import ServerError from "../Errors/ServerError";
 import NotFound from "../Errors/NotFound";
 import BasketPage from "../../Features/Basket/BasketPage";

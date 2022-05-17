@@ -1,7 +1,7 @@
-import { history } from "../.."
-
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { toast } from "react-toastify"
+
+import { history } from "../.."
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 300))
 
