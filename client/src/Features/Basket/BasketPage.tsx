@@ -6,12 +6,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Agent from "../../App/API/Agent";
-import { useStoreContext } from "../../App/Context/StoreContext";
 import { formatPrice } from "../../App/Utils";
 import BasketSummary from "./BasketSummary";
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
+import { removeItem, setBasket } from "./BasketSlice";
 
 export default function BasketPage() {
-	const {basket, setBasket, removeItem} = useStoreContext()
+	const {basket} = useAppSelector(state => state.basket)
+	const dispatch = useAppDispatch()
 	const [loadingName, setLoadingName] = useState("")
 
 	if (!basket) return <Typography variant="h3">You don't have any items in your basket</Typography>
@@ -20,7 +22,7 @@ export default function BasketPage() {
 		setLoadingName(loadingName)
 
 		Agent.Basket.addItem(productId, 1)
-		.then((basket) => setBasket(basket))
+		.then((basket) => dispatch(setBasket(basket)))
 		.catch(error => console.log(error))
 		.finally(() => setLoadingName(""))
 	}
@@ -29,7 +31,7 @@ export default function BasketPage() {
 		setLoadingName(loadingName)
 		
 		Agent.Basket.removeItem(productId, quantity)
-		.then(() => removeItem(productId, quantity))
+		.then(() => dispatch(removeItem({productId, quantity})))
 		.catch(error => console.log(error))
 		.finally(() => setLoadingName(""))
 	}

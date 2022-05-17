@@ -3,7 +3,7 @@ import { AppBar, Badge, FormControlLabel, IconButton, List, ListItem, Switch, To
 import { Box } from "@mui/system";
 import { Link, NavLink } from "react-router-dom";
 
-import { useStoreContext } from "../Context/StoreContext";
+import { useAppSelector } from "../Store/ConfigureStore";
 
 interface HeaderProps {
     isDarkMode: boolean
@@ -50,7 +50,7 @@ const flexBoxStyle = {
 }
 
 export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
-	const {basket} = useStoreContext()
+	const {basket} = useAppSelector(state => state.basket)
 	const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
