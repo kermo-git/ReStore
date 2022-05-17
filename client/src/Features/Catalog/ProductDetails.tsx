@@ -62,7 +62,7 @@ export default function ProductDetailsPage() {
     return (
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <img src={product.pictureURL} style={{width: "100%"}}></img>
+                <img src={product.pictureURL} style={{width: "100%"}} alt=""></img>
             </Grid>
             <Grid item xs={6}>
                 <Typography variant="h3">{product.name}</Typography>
@@ -105,7 +105,7 @@ export default function ProductDetailsPage() {
 					</Grid>
 					<Grid item xs={6}>
 						<LoadingButton 
-							disabled={basketItem?.quantity === basketQuantity || !basketItem && basketQuantity === 0}						
+							disabled={(basketItem?.quantity === basketQuantity) || (!basketItem && basketQuantity === 0)}						
 							loading={submitting}
 							onClick={handleUpdateBasket}
 							sx={{height: "55px"}}

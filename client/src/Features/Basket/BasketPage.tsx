@@ -66,14 +66,14 @@ export default function BasketPage() {
 								<TableCell align="right">{formatPrice(item.price)}</TableCell>
 								<TableCell align="center">
 									<LoadingButton 
-										loading={loadingName == removeName} 
+										loading={loadingName === removeName} 
 										onClick={() => handleRemoveItem(item.productId, 1, removeName)} 
 										color="error">
 										<Remove/>
 									</LoadingButton>
 									{item.quantity}
 									<LoadingButton 
-										loading={loadingName == addName} 
+										loading={loadingName === addName} 
 										onClick={() => handleAddItem(item.productId, addName)} 
 										color="secondary">
 										<Add/>
@@ -82,7 +82,7 @@ export default function BasketPage() {
 								<TableCell align="right">{formatPrice(item.price * item.quantity)}</TableCell>
 								<TableCell align="right">
 									<LoadingButton 
-										loading={loadingName == deleteName} 
+										loading={loadingName === deleteName} 
 										onClick={() => handleRemoveItem(item.productId, item.quantity, deleteName)} 
 										color="error">
 										<Delete/>
