@@ -6,7 +6,7 @@ import { createBrowserHistory } from 'history';
 
 import App from './App/Layout/App';
 import { StoreProvider } from './App/Context/StoreContext';
-import configureStore from './App/Store/ConfigureStore';
+import { store } from './App/Store/ConfigureStore';
 
 export const history = createBrowserHistory()
 
@@ -14,7 +14,7 @@ ReactDOM.render(
     <React.StrictMode>
         <HistoryRouter history={history}>
 			<StoreProvider>
-				<Provider store={configureStore()}>
+				<Provider store={store}>
             		<App/>
 				</Provider>
 			</StoreProvider>
