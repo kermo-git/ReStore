@@ -13,14 +13,15 @@ import Header from "./Header";
 import ServerError from "../Errors/ServerError";
 import NotFound from "../Errors/NotFound";
 import BasketPage from "../../Features/Basket/BasketPage";
-import { useStoreContext } from "../Context/StoreContext";
 import { getCookie } from "../Utils";
 import Agent from "../API/Agent";
 import Loading from "./Loading";
 import CheckoutPage from "../../Features/Checkout/CheckoutPage";
+import { useAppDispatch } from "../Store/ConfigureStore";
+import { setBasket } from "../../Features/Basket/BasketSlice";
 
 function App() {
-	const {setBasket} = useStoreContext()
+	const dispatch = useAppDispatch()
 	const [loading, setLoading] = useState(true)
     const [darkMode, setDarkMode] = useState(false)
 
@@ -28,7 +29,7 @@ function App() {
 		const buyerId = getCookie("buyerId")
 		if (buyerId) {
 			Agent.Basket.get()
-			.then(basket => setBasket(basket))
+			.then(basket => dispatch(setBasket(basket)))
 			.catch(error => console.log(error))
 			.finally(() => setLoading(false))
 		} else {
