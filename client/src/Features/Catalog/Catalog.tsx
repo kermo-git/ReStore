@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
 import { fetchProductsAsync, productSelectors } from "./CatalogSlice"
 import ProductList from "./ProductList"
 
-
 export default function Catalog() {
     const products = useAppSelector(productSelectors.selectAll)
 	const {productsLoaded, status} = useAppSelector(state => state.catalog)
@@ -13,7 +12,7 @@ export default function Catalog() {
 
     useEffect(() => {
 		if (!productsLoaded) dispatch(fetchProductsAsync())
-    }, [productsLoaded])
+    }, [productsLoaded, dispatch])
     
 	if (status.includes("pending")) return <Loading message="Loading products ..."/>
 

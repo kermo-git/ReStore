@@ -3,36 +3,32 @@ import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, T
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-import Agent from "../../App/API/Agent"
 import NotFound from "../../App/Errors/NotFound"
 import Loading from "../../App/Layout/Loading"
-import { Product } from "../../App/Models/Product"
 import { formatPrice } from "../../App/Utils"
 import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
 import { addBasketItemAsync, removeBasketItemAsync } from "../Basket/BasketSlice"
+import { fetchSingleProductAsync, productSelectors } from "./CatalogSlice"
 
 export default function ProductDetailsPage() {
-	const {basket, status} = useAppSelector(state => state.basket)
+	const {id} = useParams<{id: string}>()
+	const idAsNumber = parseInt(id || "")
+
+	const {basket, status: basketStatus} = useAppSelector(state => state.basket)
+	const {status: productStatus} = useAppSelector(state => state.catalog)
+	const product = useAppSelector(state => productSelectors.selectById(state, idAsNumber))
+
 	const dispatch = useAppDispatch()
-    const {id} = useParams<{id: string}>()
 
-    const [product, setProduct] = useState<Product | null>(null)
 	const [basketQuantity, setBasketQuantity] = useState(0)
-
-    const [productLoading, setProductLoading] = useState(true)
-
 	const basketItem = basket?.items.find(item => item.productId === product?.id)
 
     useEffect(() => {
 		if (basketItem) setBasketQuantity(basketItem.quantity)
+		if (!product) dispatch(fetchSingleProductAsync(idAsNumber))
+    }, [idAsNumber, basketItem, product, dispatch])
 
-        Agent.Catalog.details(id || "")
-        .then(product => setProduct(product))
-        .catch(error => console.error(error))
-        .finally(() => setProductLoading(false))
-    }, [id, basketItem])
-
-    if (productLoading) return <Loading message="Loading product ..."/>
+    if (productStatus.includes("pending")) return <Loading message="Loading product ..."/>
 
     if (!product) return <NotFound/>
 
@@ -100,7 +96,7 @@ export default function ProductDetailsPage() {
 					<Grid item xs={6}>
 						<LoadingButton 
 							disabled={(basketItem?.quantity === basketQuantity) || (!basketItem && basketQuantity === 0)}						
-							loading={status.includes("pending")}
+							loading={basketStatus.includes("pending")}
 							onClick={handleUpdateBasket}
 							sx={{height: "55px"}}
 							color="primary"

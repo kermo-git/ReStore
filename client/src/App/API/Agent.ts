@@ -51,7 +51,7 @@ const requests = {
 
 const Catalog = {
     list: () => requests.get("products"),
-    details: (id: string) => requests.get("products/" + id)
+    details: (id: number) => requests.get("products/" + id)
 }
 
 const Basket = {
