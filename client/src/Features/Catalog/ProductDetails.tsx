@@ -9,10 +9,10 @@ import Loading from "../../App/Layout/Loading";
 import { Product } from "../../App/Models/Product";
 import { formatPrice } from "../../App/Utils";
 import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { removeItem, setBasket } from "../Basket/BasketSlice";
+import { addBasketItemAsync, removeBasketItemAsync } from "../Basket/BasketSlice";
 
 export default function ProductDetailsPage() {
-	const {basket} = useAppSelector(state => state.basket)
+	const {basket, status} = useAppSelector(state => state.basket)
 	const dispatch = useAppDispatch()
     const {id} = useParams<{id: string}>()
 
@@ -20,7 +20,6 @@ export default function ProductDetailsPage() {
 	const [basketQuantity, setBasketQuantity] = useState(0)
 
     const [productLoading, setProductLoading] = useState(true)
-	const [submitting, setSubmitting] = useState(false)
 
 	const basketItem = basket?.items.find(item => item.productId === product?.id)
 
@@ -43,21 +42,14 @@ export default function ProductDetailsPage() {
 	}
 
 	function handleUpdateBasket() {
-		setSubmitting(true)
 		const id = product!.id
 
 		if (!basketItem || basketItem.quantity < basketQuantity) {
 			const updatedQuantity = basketItem ? basketQuantity - basketItem.quantity : basketQuantity
-			Agent.Basket.addItem(id, updatedQuantity)
-			.then(basket => dispatch(setBasket(basket)))
-			.catch(error => console.log(error))
-			.finally(() => setSubmitting(false))
+			dispatch(addBasketItemAsync({productId: id, quantity: updatedQuantity}))
 		} else {
 			const updatedQuantity = basketItem.quantity - basketQuantity
-			Agent.Basket.removeItem(id, updatedQuantity)
-			.then(() => dispatch(removeItem({productId: id, quantity: updatedQuantity})))
-			.catch(error => console.log(error))
-			.finally(() => setSubmitting(false))
+			dispatch(removeBasketItemAsync({productId: id, quantity: updatedQuantity}))
 		}
 	}
 
@@ -108,7 +100,7 @@ export default function ProductDetailsPage() {
 					<Grid item xs={6}>
 						<LoadingButton 
 							disabled={(basketItem?.quantity === basketQuantity) || (!basketItem && basketQuantity === 0)}						
-							loading={submitting}
+							loading={status.includes("pending")}
 							onClick={handleUpdateBasket}
 							sx={{height: "55px"}}
 							color="primary"
