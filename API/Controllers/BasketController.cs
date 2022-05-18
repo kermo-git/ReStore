@@ -29,7 +29,7 @@ namespace API.Controllers {
 			if (basket == null) basket = CreateBasket();
 
 			var product = await _context.Products.FindAsync(productId);
-			if (product == null) return NotFound();
+			if (product == null) return BadRequest(new ProblemDetails{Title = "Problem saving item to basket"});
 
 			basket.AddItem(product, quantity);
 			
