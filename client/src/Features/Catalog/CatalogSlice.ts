@@ -8,22 +8,22 @@ const productsAdapter = createEntityAdapter<Product>()
 
 export const fetchProductsAsync = createAsyncThunk<Product[]>(
 	"catalog/fetchProductsAsync",
-	async () => {
+	async (_, thunkAPI) => {
 		try {
 			return await Agent.Catalog.list()
-		} catch(error) {
-			console.log(error)
+		} catch(error: any) {
+			return thunkAPI.rejectWithValue({error: error.data})
 		}
 	}
 )
 
 export const fetchSingleProductAsync = createAsyncThunk<Product, number>(
 	"catalog/fetchSingleProductAsync",
-	async (productId) => {
+	async (productId, thunkAPI) => {
 		try {
 			return await Agent.Catalog.details(productId)
-		} catch(error) {
-			console.log(error)
+		} catch(error: any) {
+			return thunkAPI.rejectWithValue({error: error.data})
 		}
 	}
 )
