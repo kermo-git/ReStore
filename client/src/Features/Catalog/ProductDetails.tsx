@@ -1,15 +1,15 @@
-import { LoadingButton } from "@mui/lab";
-import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { LoadingButton } from "@mui/lab"
+import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 
-import Agent from "../../App/API/Agent";
-import NotFound from "../../App/Errors/NotFound";
-import Loading from "../../App/Layout/Loading";
-import { Product } from "../../App/Models/Product";
-import { formatPrice } from "../../App/Utils";
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { addBasketItemAsync, removeBasketItemAsync } from "../Basket/BasketSlice";
+import Agent from "../../App/API/Agent"
+import NotFound from "../../App/Errors/NotFound"
+import Loading from "../../App/Layout/Loading"
+import { Product } from "../../App/Models/Product"
+import { formatPrice } from "../../App/Utils"
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
+import { addBasketItemAsync, removeBasketItemAsync } from "../Basket/BasketSlice"
 
 export default function ProductDetailsPage() {
 	const {basket, status} = useAppSelector(state => state.basket)

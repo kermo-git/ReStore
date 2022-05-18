@@ -1,5 +1,5 @@
-import { Backdrop, CircularProgress, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Backdrop, CircularProgress, Typography } from "@mui/material"
+import { Box } from "@mui/system"
 
 interface Props {
 	message?: string

@@ -6,11 +6,11 @@ import { history } from "../.."
 const sleep = () => new Promise(resolve => setTimeout(resolve, 300))
 
 axios.defaults.baseURL = "http://localhost:5000/api/"
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true
 
 axios.interceptors.response.use(
     async response => {
-		await sleep();
+		await sleep()
         return response
     }, 
     (error: AxiosError) => {

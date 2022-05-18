@@ -1,24 +1,24 @@
-import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
+import { useEffect, useState } from "react"
+import { Route, Routes } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-import AboutPage from "../../Features/About/AboutPage";
-import Catalog from "../../Features/Catalog/Catalog";
-import ProductDetailsPage from "../../Features/Catalog/ProductDetails";
-import ContactPage from "../../Features/Contact/ContactPage";
-import HomePage from "../../Features/Home/HomePage";
-import Header from "./Header";
-import ServerError from "../Errors/ServerError";
-import NotFound from "../Errors/NotFound";
-import BasketPage from "../../Features/Basket/BasketPage";
-import { getCookie } from "../Utils";
-import Agent from "../API/Agent";
-import Loading from "./Loading";
-import CheckoutPage from "../../Features/Checkout/CheckoutPage";
-import { useAppDispatch } from "../Store/ConfigureStore";
-import { setBasket } from "../../Features/Basket/BasketSlice";
+import AboutPage from "../../Features/About/AboutPage"
+import Catalog from "../../Features/Catalog/Catalog"
+import ProductDetailsPage from "../../Features/Catalog/ProductDetails"
+import ContactPage from "../../Features/Contact/ContactPage"
+import HomePage from "../../Features/Home/HomePage"
+import Header from "./Header"
+import ServerError from "../Errors/ServerError"
+import NotFound from "../Errors/NotFound"
+import BasketPage from "../../Features/Basket/BasketPage"
+import { getCookie } from "../Utils"
+import Agent from "../API/Agent"
+import Loading from "./Loading"
+import CheckoutPage from "../../Features/Checkout/CheckoutPage"
+import { useAppDispatch } from "../Store/ConfigureStore"
+import { setBasket } from "../../Features/Basket/BasketSlice"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -35,7 +35,7 @@ function App() {
 		} else {
 			setLoading(false)
 		}
-	}, [setBasket])
+	}, [dispatch])
     
     const theme = createTheme({
         palette: {
@@ -74,4 +74,4 @@ function App() {
     </>)
 }
 
-export default App;
+export default App

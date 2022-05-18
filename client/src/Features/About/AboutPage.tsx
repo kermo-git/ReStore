@@ -1,7 +1,7 @@
-import { Alert, AlertTitle, Button, ButtonGroup, Container, List, ListItem, Typography } from "@mui/material";
-import { useState } from "react";
+import { Alert, AlertTitle, Button, ButtonGroup, Container, List, ListItem, Typography } from "@mui/material"
+import { useState } from "react"
 
-import Agent from "../../App/API/Agent";
+import Agent from "../../App/API/Agent"
 
 const errors = Agent.TestErrors
 const handle = (errorPromise: Promise<any>) => errorPromise.catch(error => console.log(error))

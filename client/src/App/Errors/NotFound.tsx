@@ -1,5 +1,5 @@
-import { Button, Container, Divider, Paper, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, Container, Divider, Paper, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
 
 export default function NotFound() {
 	return (

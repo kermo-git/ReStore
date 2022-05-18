@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-import Agent from "../../App/API/Agent";
-import { Basket } from "../../App/Models/Basket";
+import Agent from "../../App/API/Agent"
+import { Basket } from "../../App/Models/Basket"
 
 interface BasketState {
 	basket: Basket | null,
@@ -19,7 +19,7 @@ export const addBasketItemAsync = createAsyncThunk<Basket, {productId: number, q
 		try {
 			return await Agent.Basket.addItem(productId, quantity)
 		} catch (error) {
-			console.log(error);
+			console.log(error)
 		}
 	}
 )
@@ -30,7 +30,7 @@ export const removeBasketItemAsync = createAsyncThunk<void, {productId: number, 
 		try {
 			await Agent.Basket.removeItem(productId, quantity)
 		} catch (error) {
-			console.log(error);
+			console.log(error)
 		}
 	}
 )

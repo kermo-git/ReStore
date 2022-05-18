@@ -1,13 +1,13 @@
-import { Add, Delete, Remove } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
-import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Add, Delete, Remove } from "@mui/icons-material"
+import { LoadingButton } from "@mui/lab"
+import { Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box } from "@mui/system"
+import { Link } from "react-router-dom"
 
-import { formatPrice } from "../../App/Utils";
-import BasketSummary from "./BasketSummary";
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { addBasketItemAsync, removeBasketItemAsync } from "./BasketSlice";
+import { formatPrice } from "../../App/Utils"
+import BasketSummary from "./BasketSummary"
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
+import { addBasketItemAsync, removeBasketItemAsync } from "./BasketSlice"
 
 export default function BasketPage() {
 	const {basket, status} = useAppSelector(state => state.basket)
@@ -93,5 +93,5 @@ export default function BasketPage() {
 				</Grid>
 			</Grid>	
 		</>
-	);
+	)
 }

@@ -1,11 +1,11 @@
-import { LoadingButton } from "@mui/lab";
-import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { LoadingButton } from "@mui/lab"
+import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
 
-import { Product } from "../../App/Models/Product";
-import { formatPrice } from "../../App/Utils";
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { addBasketItemAsync } from "../Basket/BasketSlice";
+import { Product } from "../../App/Models/Product"
+import { formatPrice } from "../../App/Utils"
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
+import { addBasketItemAsync } from "../Basket/BasketSlice"
 
 interface Props {
     product: Product

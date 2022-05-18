@@ -1,7 +1,7 @@
-import { Button, ButtonGroup, Typography } from "@mui/material";
+import { Button, ButtonGroup, Typography } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { decrement, increment } from "./CounterSlice";
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
+import { decrement, increment } from "./CounterSlice"
 
 export default function ContactPage() {
 	const dispatch = useAppDispatch()

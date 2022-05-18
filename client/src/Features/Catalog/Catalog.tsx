@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
-import Agent from "../../App/API/Agent";
-import Loading from "../../App/Layout/Loading";
-import { Product } from "../../App/Models/Product";
-import ProductList from "./ProductList";
+import Agent from "../../App/API/Agent"
+import Loading from "../../App/Layout/Loading"
+import { Product } from "../../App/Models/Product"
+import ProductList from "./ProductList"
 
 
 export default function Catalog() {
