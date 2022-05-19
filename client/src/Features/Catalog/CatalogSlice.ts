@@ -28,10 +28,24 @@ export const fetchSingleProductAsync = createAsyncThunk<Product, number>(
 	}
 )
 
+export const fetchFilters = createAsyncThunk(
+	"catalog/fetchFilters",
+	async (_, thunkAPI) => {
+		try {
+			return await Agent.Catalog.filters()
+		} catch(error: any) {
+			return thunkAPI.rejectWithValue({error: error.data})
+		}
+	}
+)
+
 export const catalogSlice = createSlice({
 	name: "catalog",
 	initialState: productsAdapter.getInitialState({
 		productsLoaded: false,
+		filtersLoaded: false,
+		brands: [],
+		types: [],
 		status: "idle"
 	}),
 	reducers: {},
@@ -55,6 +69,18 @@ export const catalogSlice = createSlice({
 			state.status = "idle"
 		})
 		builder.addCase(fetchSingleProductAsync.rejected, (state) => {
+			state.status = "idle"
+		})
+		builder.addCase(fetchFilters.pending, (state) => {
+			state.status = "pendingFetchFilters"
+		})
+		builder.addCase(fetchFilters.fulfilled, (state, action) => {
+			state.brands = action.payload.brands
+			state.types = action.payload.types
+			state.filtersLoaded = true
+			state.status = "idle"
+		})
+		builder.addCase(fetchFilters.rejected, (state) => {
 			state.status = "idle"
 		})
 	}
