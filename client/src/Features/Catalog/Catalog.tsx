@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material"
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Pagination, Paper, Radio, RadioGroup, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useEffect } from "react"
 
@@ -6,6 +6,7 @@ import Loading from "../../App/Layout/Loading"
 import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
 import { fetchFilters, fetchProductsAsync, productSelectors } from "./CatalogSlice"
 import ProductList from "./ProductList"
+import ProductSearch from "./ProductSearch"
 
 const sortOptions = [
 	{value: "name", label: "Alphabetical"},
@@ -32,11 +33,7 @@ export default function Catalog() {
 		<Grid container spacing={4}>
 			<Grid item xs={3}>
 				<Paper sx={{mb: 2}}>
-					<TextField
-						label="Search products"
-						variant="outlined"
-						fullWidth
-					/>
+					<ProductSearch/>
 				</Paper>
 				<Paper sx={{mb: 2, p: 2}}>
 					<FormControl>
