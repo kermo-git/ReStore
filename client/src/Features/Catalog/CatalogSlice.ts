@@ -15,11 +15,28 @@ interface CatalogState {
 
 const productsAdapter = createEntityAdapter<Product>()
 
-export const fetchProductsAsync = createAsyncThunk<Product[]>(
+function getURLSearchParams(productParams: ProductParams) {
+	const urlParams = new URLSearchParams()
+	urlParams.append("orderBy", productParams.orderBy)
+	urlParams.append("pageNumber", productParams.pageNumber.toString())
+	urlParams.append("pageSize", productParams.pageSize.toString())
+
+	if (productParams.searchTerm)
+		urlParams.append("searchTerm", productParams.searchTerm)		
+	if (productParams.brands)
+		urlParams.append("brands", productParams.brands.toString())
+	if (productParams.types)
+		urlParams.append("types", productParams.types.toString())		
+
+	return urlParams
+}
+
+export const fetchProductsAsync = createAsyncThunk<Product[], void, {state: RootState}>(
 	"catalog/fetchProductsAsync",
 	async (_, thunkAPI) => {
 		try {
-			return await Agent.Catalog.list()
+			const params = getURLSearchParams(thunkAPI.getState().catalog.productParams)
+			return await Agent.Catalog.list(params)
 		} catch(error: any) {
 			return thunkAPI.rejectWithValue({error: error.data})
 		}
