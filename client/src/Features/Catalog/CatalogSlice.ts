@@ -1,6 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit"
 
 import Agent from "../../App/API/Agent"
+import { MetaData } from "../../App/Models/Pagination"
 import { Product, ProductParams } from "../../App/Models/Product"
 import { RootState } from "../../App/Store/ConfigureStore"
 
@@ -11,6 +12,7 @@ interface CatalogState {
 	types: string[]
 	status: string
 	productParams: ProductParams
+	metaData: MetaData | null
 }
 
 const productsAdapter = createEntityAdapter<Product>()
@@ -36,7 +38,9 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, {state: Root
 	async (_, thunkAPI) => {
 		try {
 			const params = getURLSearchParams(thunkAPI.getState().catalog.productParams)
-			return await Agent.Catalog.list(params)
+			const response = await Agent.Catalog.list(params)
+			thunkAPI.dispatch(setMetaData(response.metaData))
+			return response.items
 		} catch(error: any) {
 			return thunkAPI.rejectWithValue({error: error.data})
 		}
@@ -81,9 +85,13 @@ export const catalogSlice = createSlice({
 		brands: [],
 		types: [],
 		status: "idle",
-		productParams: initProductParams()
+		productParams: initProductParams(),
+		metaData: null
 	}),
 	reducers: {
+		setMetaData: function(state, action) {
+			state.metaData = action.payload
+		},
 		setProductParams: function(state, action) {
 			state.productsLoaded = false
 			state.productParams = {...state.productParams, ...action.payload}
@@ -130,4 +138,4 @@ export const catalogSlice = createSlice({
 })
 
 export const productSelectors = productsAdapter.getSelectors((state: RootState) => state.catalog)
-export const {setProductParams, resetProductParams} = catalogSlice.actions
+export const {setMetaData, setProductParams, resetProductParams} = catalogSlice.actions
