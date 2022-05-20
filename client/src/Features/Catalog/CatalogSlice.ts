@@ -12,22 +12,24 @@ interface CatalogState {
 	types: string[]
 	status: string
 	productParams: ProductParams
-	metaData: MetaData | null
+	metaData?: MetaData
 }
 
 const productsAdapter = createEntityAdapter<Product>()
 
-function getURLSearchParams(productParams: ProductParams) {
+function getURLSearchParams(productParams: ProductParams, metaData?: MetaData) {
 	const urlParams = new URLSearchParams()
 	urlParams.append("orderBy", productParams.orderBy)
-	urlParams.append("pageNumber", productParams.pageNumber.toString())
-	urlParams.append("pageSize", productParams.pageSize.toString())
 
+	if (metaData) {
+		urlParams.append("pageNumber", metaData.currentPage.toString())
+		urlParams.append("pageSize", metaData.pageSize.toString())
+	}
 	if (productParams.searchTerm)
 		urlParams.append("searchTerm", productParams.searchTerm)		
-	if (productParams.brands)
+	if (productParams.brands.length > 0)
 		urlParams.append("brands", productParams.brands.toString())
-	if (productParams.types)
+	if (productParams.types.length > 0)
 		urlParams.append("types", productParams.types.toString())		
 
 	return urlParams
@@ -37,7 +39,8 @@ export const fetchProductsAsync = createAsyncThunk<Product[], void, {state: Root
 	"catalog/fetchProductsAsync",
 	async (_, thunkAPI) => {
 		try {
-			const params = getURLSearchParams(thunkAPI.getState().catalog.productParams)
+			const catalogState = thunkAPI.getState().catalog
+			const params = getURLSearchParams(catalogState.productParams, catalogState.metaData)
 			const response = await Agent.Catalog.list(params)
 			thunkAPI.dispatch(setMetaData(response.metaData))
 			return response.items
@@ -73,7 +76,9 @@ function initProductParams() {
 	return {
 		orderBy: "name",
 		pageNumber: 1,
-		pageSize: 6		
+		pageSize: 6,
+		brands: [],
+		types: []	
 	}
 }
 
@@ -85,16 +90,19 @@ export const catalogSlice = createSlice({
 		brands: [],
 		types: [],
 		status: "idle",
-		productParams: initProductParams(),
-		metaData: null
+		productParams: initProductParams()
 	}),
 	reducers: {
 		setMetaData: function(state, action) {
+			state.productsLoaded = false
 			state.metaData = action.payload
 		},
 		setProductParams: function(state, action) {
 			state.productsLoaded = false
 			state.productParams = {...state.productParams, ...action.payload}
+			if (state.metaData) {
+				state.metaData.currentPage = 1
+			}
 		},
 		resetProductParams: function(state) {
 			state.productParams = initProductParams()

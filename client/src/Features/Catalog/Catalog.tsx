@@ -3,7 +3,7 @@ import { useEffect } from "react"
 
 import Loading from "../../App/Layout/Loading"
 import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
-import { fetchFilters, fetchProductsAsync, productSelectors, setProductParams } from "./CatalogSlice"
+import { fetchFilters, fetchProductsAsync, productSelectors, setMetaData, setProductParams } from "./CatalogSlice"
 import ProductList from "./ProductList"
 import ProductSearch from "./ProductSearch"
 import RadioButtonGroup from "../../App/components/RadioButtonGroup"
@@ -32,7 +32,7 @@ export default function Catalog() {
 	if (status.includes("pending") || !metaData) return <Loading message="Loading products ..."/>
 
     return (
-		<Grid container spacing={4}>
+		<Grid container spacing={4} sx={{mb: 2}}>
 			<Grid item xs={3}>
 				<Paper sx={{mb: 2}}>
 					<ProductSearch/>
@@ -66,16 +66,19 @@ export default function Catalog() {
 					</Paper>							
 			</Grid>
 			<Grid item xs={9}>
-				<ProductList products={products}/>
-			</Grid>
-			<Grid item xs={3}/>
-			<Grid item xs={9}>
-				<AppPagination
-					metaData={metaData}
-					onPageChange={(page) => {
-						dispatch(setProductParams({pageNumber: page}))
-					}}
-				/>
+				<Grid container rowSpacing={2}>
+					<Grid item xs={12}>
+						<ProductList products={products}/>
+					</Grid>
+					<Grid item xs={12}>
+						<AppPagination
+							metaData={metaData}
+							onPageChange={(page) => {
+								dispatch(setMetaData({...metaData, currentPage: page}))
+							}}
+						/>	
+					</Grid>					
+				</Grid>	
 			</Grid>
 		</Grid>
 	)
