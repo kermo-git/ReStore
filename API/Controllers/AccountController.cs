@@ -1,19 +1,22 @@
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
     public class AccountController: BaseApiController {
         private readonly UserManager<User> _userManager;
+        private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<User> userManager) {
+        public AccountController(UserManager<User> userManager, TokenService tokenService) {
             this._userManager = userManager;
+            this._tokenService = tokenService;			
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<User>> Login(LoginDTO loginDTO) {
+		public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO) {
 			var user = await _userManager.FindByNameAsync(loginDTO.UserName);
 
 			if (user == null) return Unauthorized();
@@ -22,7 +25,10 @@ namespace API.Controllers {
 
 			if (!correctPassword) return Unauthorized();
 
-			return user;
+			return new UserDTO {
+				Email = user.Email,
+				Token = await _tokenService.GenerateToken(user)
+			};
 		}
 
 		[HttpPost("register")]
