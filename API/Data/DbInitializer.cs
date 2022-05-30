@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Entities;
+
 using Microsoft.AspNetCore.Identity;
+
+using API.Entities;
 
 namespace API.Data {
     public static class DbInitializer {

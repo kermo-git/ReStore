@@ -1,11 +1,13 @@
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers {
     public class ProductsController: BaseApiController {

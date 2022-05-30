@@ -1,12 +1,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Data;
-using API.DTOs;
-using API.Entities;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+using API.Data;
+using API.DTOs;
+using API.Entities;
 
 namespace API.Controllers {
     public class BasketController: BaseApiController {

@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
-using API.DTOs;
-using API.Entities;
-using API.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
+using API.DTOs;
+using API.Entities;
+using API.Services;
 
 namespace API.Controllers {
     public class AccountController: BaseApiController {
