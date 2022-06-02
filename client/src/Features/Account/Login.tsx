@@ -13,7 +13,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import Agent from '../../App/API/Agent';
 
 export default function Login() {
-	const {register, handleSubmit, formState: {isSubmitting}} = useForm()
+	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "onTouched"})
 
 	async function submit(data: FieldValues) {
 		await Agent.Account.login(data)
@@ -37,18 +37,23 @@ export default function Login() {
 				margin="normal"
 				fullWidth				
 				label="Username"
-				{...register("username")}	
+				{...register("username", {required: "Username is required"})}	
 				autoFocus
+				error={!!errors?.username}
+				helperText={errors?.username?.message}
 			/>
 			<TextField
 				margin="normal"
 				fullWidth		
-				{...register("password")}		
+				{...register("password", {required: "Password is required"})}		
 				label="Password"	
-				type="password"								
+				type="password"				
+				error={!!errors?.password}
+				helperText={errors?.password?.message}				
 			/>
 			<LoadingButton
 				loading={isSubmitting}
+				disabled={!isValid}
 				type="submit"
 				fullWidth
 				variant="contained"
