@@ -3,11 +3,20 @@ import { toast } from "react-toastify"
 
 import { history } from "../.."
 import { PaginatedResponse } from "../Models/Pagination"
+import { store } from "../Store/ConfigureStore"
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 300))
 
 axios.defaults.baseURL = "http://localhost:5000/api/"
 axios.defaults.withCredentials = true
+
+axios.interceptors.request.use(config => {
+	const token = store.getState().account.user?.token
+	if (token && config.headers) {
+		config.headers.Authorization = "Bearer " + token
+	}
+	return config
+})
 
 axios.interceptors.response.use(
     async response => {

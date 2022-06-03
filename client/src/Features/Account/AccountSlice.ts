@@ -4,6 +4,7 @@ import { FieldValues } from "react-hook-form"
 import Agent from "../../App/API/Agent"
 import { User } from "../../App/Models/User"
 import { history } from "../.."
+import { toast } from "react-toastify"
 
 interface AccountState {
 	user: User | null
@@ -29,6 +30,8 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
 export const fetchCurrentUser = createAsyncThunk<User>(
 	"account/fetchCurrentUser",
 	async (_, thunkAPI) => {
+		const token = localStorage.getItem("user") || ""
+		thunkAPI.dispatch(setUser(JSON.parse(token)))
 		try {
 			const user = await Agent.Account.currentUser()
 			localStorage.setItem("user", JSON.stringify(user))
@@ -36,6 +39,8 @@ export const fetchCurrentUser = createAsyncThunk<User>(
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({error: error.data})
 		}
+	}, {
+		condition: () => !!localStorage.getItem("user")
 	}
 )
 
@@ -47,16 +52,25 @@ export const accountSlice = createSlice({
 			state.user = null
 			localStorage.removeItem("user")
 			history.push("/")
-		} 
+		},
+		setUser: (state, action) => {
+			state.user = action.payload
+		}
 	},
 	extraReducers: (builder) => {
+		builder.addCase(logInUser.rejected, (state, action) => {
+			console.log(action.payload);
+		})
+		builder.addCase(fetchCurrentUser.rejected, (state) => {
+			state.user = null
+			localStorage.removeItem("user")
+			history.push("/")
+			toast.error("Session expired, please log in again")
+		})
 		builder.addMatcher(isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action) => {
 			state.user = action.payload
-		})
-		builder.addMatcher(isAnyOf(logInUser.rejected, fetchCurrentUser.rejected), (state, action) => {
-			console.log(action.payload);
 		})
 	}
 })
 
-export const {logout} = accountSlice.actions
+export const {logout, setUser} = accountSlice.actions
