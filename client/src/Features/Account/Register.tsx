@@ -47,8 +47,8 @@ export default function Register() {
 					fullWidth				
 				/>
 				<TextField			
-					label="E-mail"
-					{...register("email", {required: "E-mail is required"})}	
+					label="Email"
+					{...register("email", {required: "Email is required"})}	
 					error={!!errors?.email}
 					helperText={errors?.email?.message}
 
