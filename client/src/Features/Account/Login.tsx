@@ -7,16 +7,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Paper } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 
-import Agent from '../../App/API/Agent';
+import { useAppDispatch } from '../../App/Store/ConfigureStore';
+import { logInUser } from './AccountSlice';
 
 export default function Login() {
-	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "onTouched"})
+    const navigate = useNavigate()
+	const dispatch = useAppDispatch()
+	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "all"})
 
 	async function submit(data: FieldValues) {
-		await Agent.Account.login(data)
+		await dispatch(logInUser(data))
+		navigate("/catalog")
 	}
 
 	return (
