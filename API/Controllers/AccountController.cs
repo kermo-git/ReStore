@@ -7,13 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using API.DTOs;
 using API.Entities;
 using API.Services;
+using API.Data;
+using API.Extensions;
 
 namespace API.Controllers {
     public class AccountController: BaseApiController {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService) {
+        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context): base(context) {
             this._userManager = userManager;
             this._tokenService = tokenService;			
 		}
@@ -21,16 +23,26 @@ namespace API.Controllers {
 		[HttpPost("login")]
 		public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO) {
 			var user = await _userManager.FindByNameAsync(loginDTO.UserName);
-
 			if (user == null) return Unauthorized();
 
 			bool correctPassword = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
-
 			if (!correctPassword) return Unauthorized();
+
+			var userBasket = await RetrieveBasket(loginDTO.UserName);
+			var anonBasket = await RetrieveBasket(Request.Cookies["buyerId"]);	
+
+			if (anonBasket != null) {
+				if (userBasket != null) _context.Baskets.Remove(userBasket);
+				anonBasket.BuyerId = user.UserName;
+				Response.Cookies.Delete("buyerId");
+				await _context.SaveChangesAsync();				
+			}
+			var basket = (anonBasket != null) ? anonBasket : userBasket;
 
 			return new UserDTO {
 				Email = user.Email,
-				Token = await _tokenService.GenerateToken(user)
+				Token = await _tokenService.GenerateToken(user),
+				Basket = basket.MapBasketToDTO()
 			};
 		}
 
@@ -58,6 +70,6 @@ namespace API.Controllers {
 				Email = user.Email,
 				Token = await _tokenService.GenerateToken(user)
 			};
-		}
+		}		
     }
 }

@@ -11,11 +11,7 @@ using API.RequestHelpers;
 
 namespace API.Controllers {
     public class ProductsController: BaseApiController {
-        private readonly StoreContext _context;
-
-        public ProductsController(StoreContext context) {
-            _context = context;
-        }
+        public ProductsController(StoreContext context): base(context) {}
 
         [HttpGet]
         public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] ProductParams args) {

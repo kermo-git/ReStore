@@ -1,9 +1,11 @@
 using System;
-
+using API.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
     public class BuggyController: BaseApiController {
+		public BuggyController(StoreContext context): base(context) {}
+		
         [HttpGet("not-found")]
         public ActionResult GetNotFound() {
             return NotFound();
