@@ -4,6 +4,7 @@ import { Box } from "@mui/system"
 import { Link, NavLink } from "react-router-dom"
 
 import { useAppSelector } from "../Store/ConfigureStore"
+import UserMenu from "./UserMenu"
 
 interface HeaderProps {
     isDarkMode: boolean
@@ -51,6 +52,7 @@ const flexBoxStyle = {
 
 export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
 	const {basket} = useAppSelector(state => state.basket)
+	const {user} = useAppSelector(state => state.account)
 	const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
@@ -88,15 +90,17 @@ export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
                             <ShoppingCart/>
                         </Badge>
                     </IconButton>
-                    <ToolbarLinks links={[
-                        {
-                            title: "login",
-                            path: "/login"
-                        }, {
-                            title: "register",
-                            path: "/register"
-                        }
-                    ]}/>
+					{user? <UserMenu/> : (
+						<ToolbarLinks links={[
+							{
+								title: "login",
+								path: "/login"
+							}, {
+								title: "register",
+								path: "/register"
+							}
+						]}/>
+					)}
                 </Box>
             </Toolbar>
         </AppBar>

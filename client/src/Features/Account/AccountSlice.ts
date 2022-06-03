@@ -3,6 +3,7 @@ import { FieldValues } from "react-hook-form"
 
 import Agent from "../../App/API/Agent"
 import { User } from "../../App/Models/User"
+import { history } from "../.."
 
 interface AccountState {
 	user: User | null
@@ -41,7 +42,13 @@ export const fetchCurrentUser = createAsyncThunk<User>(
 export const accountSlice = createSlice({
 	name: "acount",
 	initialState,
-	reducers: {},
+	reducers: {
+		logout: (state) => {
+			state.user = null
+			localStorage.removeItem("user")
+			history.push("/")
+		} 
+	},
 	extraReducers: (builder) => {
 		builder.addMatcher(isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action) => {
 			state.user = action.payload
@@ -51,3 +58,5 @@ export const accountSlice = createSlice({
 		})
 	}
 })
+
+export const {logout} = accountSlice.actions
