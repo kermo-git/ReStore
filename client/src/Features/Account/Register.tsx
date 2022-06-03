@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
@@ -15,11 +16,26 @@ import { LoadingButton } from '@mui/lab';
 import Agent from '../../App/API/Agent';
 
 export default function Register() {
-	const [validationErrors, setValidationErrors] = useState<string[]>([])
-	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "all"})
+	const navigate = useNavigate()
+	const {register, setError, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "all"})
 
 	function submit(data: FieldValues) {
-		Agent.Account.register(data).catch(errors => setValidationErrors(errors))
+		Agent.Account.register(data)
+		.then(() => {
+			navigate("/login")
+			toast.success("Registration.successful - you can now login")
+		})
+		.catch(errors => {
+			errors.forEach((error: string) => {
+				if (error.includes("Username")) {
+					setError("username", {message: error})
+				} else if (error.includes("Email")) {
+					setError("email", {message: error})
+				} else if (error.includes("Password")) {
+					setError("password", {message: error})
+				}
+			})
+		})
 	}
 
 	return (
@@ -48,35 +64,35 @@ export default function Register() {
 				/>
 				<TextField			
 					label="Email"
-					{...register("email", {required: "Email is required"})}	
+					{...register("email", {
+						required: "Email is required",
+						pattern: {
+							value: /^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/,
+							message: "This is not a valid email"
+						}
+					})}	
 					error={!!errors?.email}
 					helperText={errors?.email?.message}
 
 					margin="normal"
-					fullWidth				
+					fullWidth		
 				/>				
 				<TextField		
 					type="password"					
 					label="Password"				
-					{...register("password", {required: "Password is required"})}						
+					{...register("password", {
+						required: "Password is required",
+						pattern: {
+							value: /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/,
+							message: "The password is not complex enough"
+						}
+					})}						
 					error={!!errors?.password}
 					helperText={errors?.password?.message}
 
 					margin="normal"
 					fullWidth							
-				/>
-				{validationErrors.length > 0 &&
-					<Alert severity="error">
-						<AlertTitle> Validation errors </AlertTitle>
-						<List>
-							{validationErrors.map((error) => (
-								<ListItem key={error}>
-									{error}
-								</ListItem>
-							))}
-						</List>
-					</Alert>
-				}				
+				/>		
 				<LoadingButton
 					type="submit"			
 					loading={isSubmitting}
