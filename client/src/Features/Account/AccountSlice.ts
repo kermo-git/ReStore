@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { FieldValues } from "react-hook-form"
-import Agent from "../../App/API/Agent"
 
+import Agent from "../../App/API/Agent"
 import { User } from "../../App/Models/User"
 
 interface AccountState {
