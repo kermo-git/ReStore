@@ -53,7 +53,14 @@ export const basketSlice = createSlice({
 	name: "basket",
 	initialState,
 	
-	reducers: {},
+	reducers: {
+		setBasket: (state, action) => {
+			state.basket = action.payload
+		},
+		clearBasket: (state) => {
+			state.basket = null
+		}
+	},
 	extraReducers: (builder) => {
 		builder.addCase(addBasketItemAsync.pending, (state, action) => {
 			state.status = "pendingAddItem" + action.meta.arg.productId
@@ -88,3 +95,5 @@ export const basketSlice = createSlice({
 		})
 	}
 })
+
+export const {setBasket, clearBasket} = basketSlice.actions

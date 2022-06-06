@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit"
 import { FieldValues } from "react-hook-form"
+import { toast } from "react-toastify"
 
 import Agent from "../../App/API/Agent"
 import { User } from "../../App/Models/User"
 import { history } from "../.."
-import { toast } from "react-toastify"
+import { setBasket } from "../Basket/BasketSlice"
 
 interface AccountState {
 	user: User | null
@@ -18,7 +19,8 @@ export const logInUser = createAsyncThunk<User, FieldValues>(
 	"account/logInUser",
 	async (data, thunkAPI) => {
 		try {
-			const user = await Agent.Account.login(data)
+			const {basket, ...user} = await Agent.Account.login(data)
+			if (basket) thunkAPI.dispatch(setBasket(basket))
 			localStorage.setItem("user", JSON.stringify(user))
 			return user
 		} catch (error: any) {
@@ -33,7 +35,8 @@ export const fetchCurrentUser = createAsyncThunk<User>(
 		const token = localStorage.getItem("user") || ""
 		thunkAPI.dispatch(setUser(JSON.parse(token)))
 		try {
-			const user = await Agent.Account.currentUser()
+			const {basket, ...user} = await Agent.Account.currentUser()
+			if (basket) thunkAPI.dispatch(setBasket(basket))			
 			localStorage.setItem("user", JSON.stringify(user))
 			return user
 		} catch (error: any) {

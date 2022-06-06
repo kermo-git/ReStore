@@ -7,6 +7,7 @@ import { Fade } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../Store/ConfigureStore';
 import { logout } from '../../Features/Account/AccountSlice';
+import { clearBasket } from '../../Features/Basket/BasketSlice';
 
 export default function UserMenu() {
 	const {user} = useAppSelector(state => state.account)
@@ -20,6 +21,10 @@ export default function UserMenu() {
 	function closeMenu() {
 		setAnchorEl(null);
 	};
+	function logoutClick() {
+		dispatch(logout())
+		dispatch(clearBasket())
+	}
 
 	return (<>
 		<Button 
@@ -37,7 +42,7 @@ export default function UserMenu() {
 		>
 			<MenuItem onClick={closeMenu}>Profile</MenuItem>
 			<MenuItem onClick={closeMenu}>My account</MenuItem>
-			<MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+			<MenuItem onClick={logoutClick}>Logout</MenuItem>
 		</Menu>
 	</>);
 }
