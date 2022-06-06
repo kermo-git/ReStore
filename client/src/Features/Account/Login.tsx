@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import Avatar from '@mui/material/Avatar';
@@ -16,13 +16,15 @@ import { logInUser } from './AccountSlice';
 
 export default function Login() {
     const navigate = useNavigate()
+	const location = useLocation()
 	const dispatch = useAppDispatch()
 	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "all"})
 
 	async function submit(data: FieldValues) {
 		try {
 			await dispatch(logInUser(data))
-			navigate("/catalog")	
+			const from = (location.state as any)?.from?.pathName || "/catalog"
+			navigate(from, {replace: true})	
 		} catch(error) {
 			console.log(error);
 		}

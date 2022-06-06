@@ -20,6 +20,7 @@ import { fetchBasketAsync } from "../../Features/Basket/BasketSlice"
 import Login from "../../Features/Account/Login"
 import Register from "../../Features/Account/Register"
 import { fetchCurrentUser } from "../../Features/Account/AccountSlice"
+import { PrivateRoute } from "./PrivateRoute"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -68,7 +69,14 @@ function App() {
                     <Route path="/catalog/:id" element={<ProductDetailsPage/>}/>
                     <Route path="/server-error" element={<ServerError/>}/>
 					<Route path="/basket" element={<BasketPage/>}/>
-					<Route path="/checkout" element={<CheckoutPage/>}/>					
+					<Route 
+						path="/checkout" 
+						element={
+							<PrivateRoute>
+								<CheckoutPage/>
+							</PrivateRoute>
+						}
+					/>												
 					<Route path="/login" element={<Login/>}/>
 					<Route path="/register" element={<Register/>}/>							
 					<Route path="/*" element={<NotFound/>}/>
