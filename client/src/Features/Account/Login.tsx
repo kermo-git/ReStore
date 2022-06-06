@@ -20,8 +20,12 @@ export default function Login() {
 	const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({mode: "all"})
 
 	async function submit(data: FieldValues) {
-		await dispatch(logInUser(data))
-		navigate("/catalog")
+		try {
+			await dispatch(logInUser(data))
+			navigate("/catalog")	
+		} catch(error) {
+			console.log(error);
+		}
 	}
 
 	return (
