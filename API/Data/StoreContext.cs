@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using API.Entities;
+using API.Entities.OrderAggregate;
 
 namespace API.Data {
     public class StoreContext: IdentityDbContext<User> {
@@ -11,6 +12,7 @@ namespace API.Data {
 
         public DbSet<Product> Products { get; set; }
 		public DbSet<Basket> Baskets { get; set; }
+		public DbSet<Order> Orders { get; set; }
 		
 		protected override void OnModelCreating(ModelBuilder builder) {
 			base.OnModelCreating(builder);
