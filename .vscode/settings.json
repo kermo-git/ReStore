@@ -3,5 +3,6 @@
         "**/bin": true,
         "**/obj": true,
         "**/.config": true
-      }
+	},
+	"omnisharp.enableImportCompletion": true
 }
