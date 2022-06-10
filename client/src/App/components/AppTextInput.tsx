@@ -5,7 +5,7 @@ interface Props extends UseControllerProps {
 	label: string
 }
 
-export function AppTextInput(props: Props) {
+export default function AppTextInput(props: Props) {
 	const {field, fieldState} = useController({...props, defaultValue: ""})
 
 	return (

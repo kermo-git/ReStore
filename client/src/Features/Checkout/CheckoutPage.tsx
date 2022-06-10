@@ -7,7 +7,7 @@ import { Box, Button, Paper, Step, StepLabel, Stepper, Typography } from "@mui/m
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-import { validationSchema } from "./CheckoutValidation";
+import validationSchema from "./CheckoutValidation";
 
 const steps = ['Shipping address', 'Review your order', 'Payment details'];
 

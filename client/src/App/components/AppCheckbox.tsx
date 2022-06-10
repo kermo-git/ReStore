@@ -5,7 +5,7 @@ interface Props extends UseControllerProps {
 	label: string
 }
 
-export function AppCheckbox(props: Props) {
+export default function AppCheckbox(props: Props) {
 	const {field} = useController({...props, defaultValue: false})
 
 	return (
