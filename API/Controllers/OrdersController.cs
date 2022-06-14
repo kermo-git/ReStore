@@ -72,11 +72,13 @@ namespace API.Controllers {
 			_context.Baskets.Remove(basket);
 
 			if (orderDTO.SaveAddress) {
-				var user = await _context.Users.FirstOrDefaultAsync(
-					x => x.UserName == User.Identity.Name
-				);
+				var user = await _context.Users
+					.Include(x => x.Address)
+					.FirstOrDefaultAsync(
+						x => x.UserName == User.Identity.Name
+					);
 
-				user.Address = new UserAddress{
+				var address = new UserAddress{
 					FullName = shippingAddress.FullName,
 					Address1 = shippingAddress.Address1,
 					Address2 = shippingAddress.Address2,
@@ -85,7 +87,7 @@ namespace API.Controllers {
 					Zip = shippingAddress.Zip,
 					Country = shippingAddress.Country																								
 				};
-				_context.Update(user);
+				user.Address = address;
 			}
 
 			var result = await _context.SaveChangesAsync() > 0;
