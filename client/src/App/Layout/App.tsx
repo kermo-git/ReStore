@@ -21,6 +21,7 @@ import Login from "../../Features/Account/Login"
 import Register from "../../Features/Account/Register"
 import { fetchCurrentUser } from "../../Features/Account/AccountSlice"
 import { PrivateRoute } from "./PrivateRoute"
+import Orders from "../../Features/Orders/Orders"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -76,7 +77,15 @@ function App() {
 								<CheckoutPage/>
 							</PrivateRoute>
 						}
-					/>												
+					/>						
+					<Route 
+						path="/orders" 
+						element={
+							<PrivateRoute>
+								<Orders/>
+							</PrivateRoute>
+						}
+					/>											
 					<Route path="/login" element={<Login/>}/>
 					<Route path="/register" element={<Register/>}/>							
 					<Route path="/*" element={<NotFound/>}/>

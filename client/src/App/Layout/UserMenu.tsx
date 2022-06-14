@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -41,7 +42,7 @@ export default function UserMenu() {
 			TransitionComponent={Fade}
 		>
 			<MenuItem onClick={closeMenu}>Profile</MenuItem>
-			<MenuItem onClick={closeMenu}>My account</MenuItem>
+			<MenuItem component={Link} to="/orders">My orders</MenuItem>
 			<MenuItem onClick={logoutClick}>Logout</MenuItem>
 		</Menu>
 	</>);
