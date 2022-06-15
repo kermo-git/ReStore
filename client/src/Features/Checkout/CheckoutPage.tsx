@@ -12,6 +12,7 @@ import validationSchemas from "./CheckoutValidation";
 import Agent from "../../App/API/Agent";
 import { useAppDispatch } from "../../App/Store/ConfigureStore";
 import { clearBasket } from "../Basket/BasketSlice";
+import { fetchOrdersAsync } from "../Orders/OrderSlice";
 
 const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
@@ -58,6 +59,7 @@ export default function CheckoutPage() {
 				const newOrderNumber = await Agent.Orders.create({saveAddress, shippingAddress})
 				setOrderNumber(newOrderNumber)
 				dispatch(clearBasket())
+				dispatch(fetchOrdersAsync())
 				setActiveStep(activeStep + 1)
 			} catch(error) {
 				console.log(error)

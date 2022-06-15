@@ -5,13 +5,15 @@ import { basketSlice } from "../../Features/Basket/BasketSlice"
 import { catalogSlice } from "../../Features/Catalog/CatalogSlice"
 import { counterSlice } from "../../Features/Contact/CounterSlice"
 import { accountSlice } from "../../Features/Account/AccountSlice"
+import { orderSlice } from "../../Features/Orders/OrderSlice"
 
 export const store = configureStore({
 	reducer: {
 		counter: counterSlice.reducer,
 		basket: basketSlice.reducer,
 		catalog: catalogSlice.reducer,
-		account: accountSlice.reducer
+		account: accountSlice.reducer,
+		order: orderSlice.reducer
 	}
 })
 

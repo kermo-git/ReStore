@@ -9,6 +9,7 @@ import { Fade } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../Store/ConfigureStore';
 import { logout } from '../../Features/Account/AccountSlice';
 import { clearBasket } from '../../Features/Basket/BasketSlice';
+import { clearOrders } from '../../Features/Orders/OrderSlice';
 
 export default function UserMenu() {
 	const {user} = useAppSelector(state => state.account)
@@ -25,6 +26,7 @@ export default function UserMenu() {
 	function logoutClick() {
 		dispatch(logout())
 		dispatch(clearBasket())
+		dispatch(clearOrders())
 	}
 
 	return (<>

@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react"
+import { useEffect, useCallback } from "react"
 
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
-import Agent from "../../App/API/Agent"
-import { Order } from "../../App/Models/Order";
 import Loading from "../../App/Layout/Loading";
 import { formatPrice } from "../../App/Utils";
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
+import { fetchOrdersAsync } from "./OrderSlice";
 
 export default function Orders() {
-	const [orders, setOrders] = useState<Order[] | null>(null);
-	const [loading, setLoading] = useState(true);
+	const dispatch = useAppDispatch()
+	const {orders, status} = useAppSelector(state => state.order)
 
-	useEffect(() => {
-		Agent.Orders.list()
-			.then(orders => setOrders(orders))
-			.catch(error => console.log(error))
-			.finally(() => setLoading(false))
-	}, [])
+	const init = useCallback(async () => {
+		try {
+			if (orders === null) await dispatch(fetchOrdersAsync())
+		} catch(error) {
+			console.log(error);
+		}
+	}, [dispatch])
 
-	if (loading) return <Loading message="Loading orders..."/>
+	useEffect(() => { init() }, [init])
+
+	if (status === "pending") return <Loading message="Loading orders..."/>
 
 	return (
 		<TableContainer component={Paper}>
