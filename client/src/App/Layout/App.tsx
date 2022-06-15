@@ -14,7 +14,6 @@ import ServerError from "../Errors/ServerError"
 import NotFound from "../Errors/NotFound"
 import BasketPage from "../../Features/Basket/BasketPage"
 import Loading from "./Loading"
-import CheckoutPage from "../../Features/Checkout/CheckoutPage"
 import { useAppDispatch } from "../Store/ConfigureStore"
 import { fetchBasketAsync } from "../../Features/Basket/BasketSlice"
 import Login from "../../Features/Account/Login"
@@ -23,6 +22,7 @@ import { fetchCurrentUser } from "../../Features/Account/AccountSlice"
 import { PrivateRoute } from "./PrivateRoute"
 import Orders from "../../Features/Orders/Orders"
 import OrderDetailsPage from "../../Features/Orders/OrderDetails"
+import CheckoutWrapper from "../../Features/Checkout/CheckoutWrapper"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -73,7 +73,7 @@ function App() {
 					<Route path="/basket" element={<BasketPage/>}/>
 					<Route 
 						path="/checkout" 
-						element={<PrivateRoute><CheckoutPage/></PrivateRoute>}
+						element={<PrivateRoute><CheckoutWrapper/></PrivateRoute>}
 					/>						
 					<Route 
 						path="/orders" 
