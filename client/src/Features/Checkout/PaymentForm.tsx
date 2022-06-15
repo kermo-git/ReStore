@@ -5,28 +5,18 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/react-stripe-js';
+import { StripeElementType } from '@stripe/stripe-js';
 
 import AppTextInput from '../../App/components/AppTextInput';
 import StripeInput from './StripeInput';
-import { StripeElementType } from '@stripe/stripe-js';
 
-export default function PaymentForm() {
+interface Props {
+	cardState: {elementError: {[key in StripeElementType]?: string}},
+	onCardInputChange: (event: any) => void
+}
+
+export default function PaymentForm({cardState, onCardInputChange}: Props) {
 	const {control} = useFormContext()
-	const [cardState, setCardState] = useState<{elementError: {[key in StripeElementType]?: string}}>({elementError: {}})
-	const [cardComplete, setCardComplete] = useState<any>({cardNumber: false, cardExpiry: false, cardCvc: false})
-	
-	function onCardInputChange(event: any) {
-		setCardState({
-			elementError: {
-				...cardState.elementError,				
-				[event.elementType]: event.error?.message
-			}
-		})
-		setCardComplete({
-			...cardComplete,
-			[event.elementType]: event.complete
-		})
-	}
 
 	return (
 		<>
