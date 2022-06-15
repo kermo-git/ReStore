@@ -32,8 +32,6 @@ namespace API.Services {
 					PaymentMethodTypes = new List<string>{"card"}
 				};
 				intent = await service.CreateAsync(options);
-				basket.PaymentIntentId = intent.Id;
-				basket.ClientSecret = intent.ClientSecret;
 			} else {
 				var options = new PaymentIntentUpdateOptions {
 					Amount = subTotal + deliveryFee
