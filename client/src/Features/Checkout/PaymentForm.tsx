@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Typography from '@mui/material/Typography';
@@ -7,9 +8,25 @@ import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/re
 
 import AppTextInput from '../../App/components/AppTextInput';
 import StripeInput from './StripeInput';
+import { StripeElementType } from '@stripe/stripe-js';
 
 export default function PaymentForm() {
 	const {control} = useFormContext()
+	const [cardState, setCardState] = useState<{elementError: {[key in StripeElementType]?: string}}>({elementError: {}})
+	const [cardComplete, setCardComplete] = useState<any>({cardNumber: false, cardExpiry: false, cardCvc: false})
+	
+	function onCardInputChange(event: any) {
+		setCardState({
+			elementError: {
+				...cardState.elementError,				
+				[event.elementType]: event.error?.message
+			}
+		})
+		setCardComplete({
+			...cardComplete,
+			[event.elementType]: event.complete
+		})
+	}
 
 	return (
 		<>
@@ -37,6 +54,10 @@ export default function PaymentForm() {
 								component: CardNumberElement
 							}
 						}}
+
+						onChange={onCardInputChange}
+						error={!!cardState.elementError.cardNumber}
+						helperText={cardState.elementError.cardNumber}						
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
@@ -56,13 +77,16 @@ export default function PaymentForm() {
 								component: CardExpiryElement
 							}
 						}}
+
+						onChange={onCardInputChange}
+						error={!!cardState.elementError.cardExpiry}
+						helperText={cardState.elementError.cardExpiry}							
 					/>
 				</Grid>
 				<Grid item xs={12} md={6}>
 					<TextField
 						id="cvv"
 						label="CVV"
-						helperText="Last three digits on signature strip"
 						fullWidth
 						autoComplete="cc-csc"
 						variant="outlined"
@@ -76,6 +100,10 @@ export default function PaymentForm() {
 								component: CardCvcElement
 							}
 						}}
+
+						onChange={onCardInputChange}
+						error={!!cardState.elementError.cardCvc}
+						helperText={cardState.elementError.cardCvc}							
 					/>
 				</Grid>
 			</Grid>
