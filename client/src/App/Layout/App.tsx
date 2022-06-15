@@ -22,6 +22,7 @@ import Register from "../../Features/Account/Register"
 import { fetchCurrentUser } from "../../Features/Account/AccountSlice"
 import { PrivateRoute } from "./PrivateRoute"
 import Orders from "../../Features/Orders/Orders"
+import OrderDetailsPage from "../../Features/Orders/OrderDetails"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -72,20 +73,16 @@ function App() {
 					<Route path="/basket" element={<BasketPage/>}/>
 					<Route 
 						path="/checkout" 
-						element={
-							<PrivateRoute>
-								<CheckoutPage/>
-							</PrivateRoute>
-						}
+						element={<PrivateRoute><CheckoutPage/></PrivateRoute>}
 					/>						
 					<Route 
 						path="/orders" 
-						element={
-							<PrivateRoute>
-								<Orders/>
-							</PrivateRoute>
-						}
-					/>											
+						element={<PrivateRoute><Orders/></PrivateRoute>}
+					/>
+					<Route 
+						path="/orders/:id" 
+						element={<PrivateRoute><OrderDetailsPage/></PrivateRoute>}
+					/>																
 					<Route path="/login" element={<Login/>}/>
 					<Route path="/register" element={<Register/>}/>							
 					<Route path="/*" element={<NotFound/>}/>

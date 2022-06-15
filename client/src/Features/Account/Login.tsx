@@ -23,7 +23,7 @@ export default function Login() {
 	async function submit(data: FieldValues) {
 		try {
 			await dispatch(logInUser(data))
-			const from = (location.state as any)?.from?.pathName || "/catalog"
+			const from = (location.state as any)?.from?.pathname || "/catalog"
 			navigate(from, {replace: true})	
 		} catch(error) {
 			console.log(error);

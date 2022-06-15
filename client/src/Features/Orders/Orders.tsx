@@ -1,4 +1,5 @@
 import { useEffect, useCallback } from "react"
+import { Link } from "react-router-dom";
 
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
@@ -12,13 +13,8 @@ export default function Orders() {
 	const {orders, status} = useAppSelector(state => state.order)
 
 	const init = useCallback(async () => {
-		try {
-			if (orders === null) await dispatch(fetchOrdersAsync())
-		} catch(error) {
-			console.log(error);
-		}
+		if (orders === null) await dispatch(fetchOrdersAsync())
 	}, [dispatch])
-
 	useEffect(() => { init() }, [init])
 
 	if (status === "pending") return <Loading message="Loading orders..."/>
@@ -48,7 +44,7 @@ export default function Orders() {
 						<TableCell align="right">{order.orderDate.split("T")[0]}</TableCell>
 						<TableCell align="right">{order.orderStatus}</TableCell>
 						<TableCell align="right">
-							<Button>View</Button>
+							<Button component={Link} to={"/orders/" + order.id}>View</Button>
 						</TableCell>
 					</TableRow>
 					))}
