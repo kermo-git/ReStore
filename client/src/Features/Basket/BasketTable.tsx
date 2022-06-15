@@ -9,9 +9,9 @@ import { BasketItem } from "../../App/Models/Basket"
 
 interface Props {
 	items: BasketItem[]
-	isBasket?: boolean
+	canEdit?: boolean
 }
-export default function BasketTable({items, isBasket = true}: Props) {
+export default function BasketTable({items, canEdit}: Props) {
 	const {status} = useAppSelector(state => state.basket)
 	const dispatch = useAppDispatch()
 		
@@ -24,7 +24,7 @@ export default function BasketTable({items, isBasket = true}: Props) {
 						<TableCell align="right">Price</TableCell>
 						<TableCell align="center">Quantity</TableCell>
 						<TableCell align="right">Subtotal</TableCell>
-						{isBasket &&
+						{canEdit &&
 						<TableCell align="right"></TableCell>}
 					</TableRow>
 				</TableHead>
@@ -42,7 +42,7 @@ export default function BasketTable({items, isBasket = true}: Props) {
 							</TableCell>
 							<TableCell align="right">{formatPrice(item.price)}</TableCell>
 							<TableCell align="center">
-								{isBasket &&
+								{canEdit &&
 								<LoadingButton 
 									loading={status === "pendingRemoveItem" + item.productId + "rem"} 
 									onClick={() => dispatch(removeBasketItemAsync({
@@ -56,7 +56,7 @@ export default function BasketTable({items, isBasket = true}: Props) {
 
 								{item.quantity}
 
-								{isBasket &&
+								{canEdit &&
 								<LoadingButton 
 									loading={status === "pendingAddItem" + item.productId} 
 									onClick={() => dispatch(addBasketItemAsync({productId: item.productId, quantity: 1}))} 
@@ -66,7 +66,7 @@ export default function BasketTable({items, isBasket = true}: Props) {
 							</TableCell>
 							<TableCell align="right">{formatPrice(item.price * item.quantity)}</TableCell>
 
-							{isBasket &&
+							{canEdit &&
 							<TableCell align="right">
 								<LoadingButton 
 									loading={status === "pendingRemoveItem" + item.productId + "del"} 

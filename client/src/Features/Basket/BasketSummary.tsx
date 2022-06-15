@@ -1,12 +1,14 @@
 import { TableContainer, Paper, Table, TableBody, TableRow, TableCell } from "@mui/material"
 
 import { formatPrice } from "../../App/Utils"
-import { useAppSelector } from "../../App/Store/ConfigureStore"
+import { BasketItem } from "../../App/Models/Basket"
 
-export default function BasketSummary() {
-	const {basket} = useAppSelector(state => state.basket)
+interface Props {
+	items: BasketItem[]
+}
 
-    const subtotal = basket?.items.reduce((prevTotal, item) => (prevTotal + item.price * item.quantity), 0) ?? 0
+export default function BasketSummary({items}: Props) {
+    const subtotal = items.reduce((prevTotal, item) => (prevTotal + item.price * item.quantity), 0) ?? 0
     const deliveryFee = ((subtotal > 10000) || (subtotal === 0)) ? 0 : 500
 
     return (
