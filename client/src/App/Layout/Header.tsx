@@ -56,7 +56,7 @@ export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
 	const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
 
     return (
-        <AppBar position="static" sx={{marginBottom: 4}}>
+        <AppBar position="static">
             <Toolbar sx={flexBoxStyle}>
                 <Box sx={flexBoxStyle}>
                     <ToolbarLinks links={[{

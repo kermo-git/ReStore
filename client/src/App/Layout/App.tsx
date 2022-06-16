@@ -62,32 +62,36 @@ function App() {
             <ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
             <CssBaseline/>
             <Header isDarkMode={darkMode} toggleDarkMode={toggleDarkMode}/>
-            <Container>
-                <Routes>
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/about" element={<AboutPage/>}/>
-                    <Route path="/contact" element={<ContactPage/>}/>
-                    <Route path="/catalog" element={<Catalog/>}/>
-                    <Route path="/catalog/:id" element={<ProductDetailsPage/>}/>
-                    <Route path="/server-error" element={<ServerError/>}/>
-					<Route path="/basket" element={<BasketPage/>}/>
-					<Route 
-						path="/checkout" 
-						element={<PrivateRoute><CheckoutWrapper/></PrivateRoute>}
-					/>						
-					<Route 
-						path="/orders" 
-						element={<PrivateRoute><Orders/></PrivateRoute>}
-					/>
-					<Route 
-						path="/orders/:id" 
-						element={<PrivateRoute><OrderDetailsPage/></PrivateRoute>}
-					/>																
-					<Route path="/login" element={<Login/>}/>
-					<Route path="/register" element={<Register/>}/>							
-					<Route path="/*" element={<NotFound/>}/>
-                </Routes>
-            </Container>
+			<Routes>
+				<Route path="/" element={<HomePage/>}/>
+				<Route path="/*" element={
+					<Container sx={{mt: 4}}>
+						<Routes>
+							<Route path="/about" element={<AboutPage/>}/>
+							<Route path="/contact" element={<ContactPage/>}/>
+							<Route path="/catalog" element={<Catalog/>}/>
+							<Route path="/catalog/:id" element={<ProductDetailsPage/>}/>
+							<Route path="/server-error" element={<ServerError/>}/>
+							<Route path="/basket" element={<BasketPage/>}/>
+							<Route 
+								path="/checkout" 
+								element={<PrivateRoute><CheckoutWrapper/></PrivateRoute>}
+							/>						
+							<Route 
+								path="/orders" 
+								element={<PrivateRoute><Orders/></PrivateRoute>}
+							/>
+							<Route 
+								path="/orders/:id" 
+								element={<PrivateRoute><OrderDetailsPage/></PrivateRoute>}
+							/>																
+							<Route path="/login" element={<Login/>}/>
+							<Route path="/register" element={<Register/>}/>							
+							<Route path="/*" element={<NotFound/>}/>
+						</Routes>
+					</Container>
+				}/>
+			</Routes>
         </ThemeProvider>
     </>)
 }
