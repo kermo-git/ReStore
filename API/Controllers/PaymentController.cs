@@ -1,19 +1,26 @@
+using System.IO;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 using API.Data;
 using API.DTOs;
 using API.Extensions;
 using API.Services;
+using API.Entities.OrderAggregate;
 
 namespace API.Controllers {
 	public class PaymentController: BaseApiController {
         private readonly PaymentService _paymentService;
+        private readonly IConfiguration _config;
 
-		public PaymentController(PaymentService paymentService,StoreContext context): base(context) {
+		public PaymentController(PaymentService paymentService, StoreContext context, IConfiguration config): base(context) {
             this._paymentService = paymentService;
+            this._config = config;			
 		}
 
 		[Authorize]
@@ -36,6 +43,27 @@ namespace API.Controllers {
 			} else {
 				return BadRequest(new ProblemDetails{Title = "Problem updating basket with payment intent."});				
 			}
+		}
+
+		[HttpPost("webhook")]
+		public async Task<ActionResult> StripeWebhook() {
+			var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+			var stripeEvent = EventUtility.ConstructEvent(
+				json, 
+				Request.Headers["Stripe-Signature"],
+				_config["StripeSettings:WhSecret"]
+			);
+			var charge = (Charge) stripeEvent.Data.Object;
+
+			if (charge.Status == "succeeded") {
+				var order = await _context.Orders.FirstOrDefaultAsync(
+					x => x.PaymentIntentId == charge.PaymentIntentId
+				);				
+				order.OrderStatus = OrderStatus.PaymentReceived;
+				await _context.SaveChangesAsync();
+			}
+			return new EmptyResult();
 		}
 	}
 }
