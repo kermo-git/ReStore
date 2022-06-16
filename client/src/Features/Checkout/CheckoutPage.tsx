@@ -5,13 +5,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Paper, Step, StepLabel, Stepper, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { StripeElementType } from "@stripe/stripe-js";
+import { CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
 import validationSchemas from "./CheckoutValidation";
 import Agent from "../../App/API/Agent";
-import { useAppDispatch } from "../../App/Store/ConfigureStore";
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
 import { clearBasket } from "../Basket/BasketSlice";
 import { fetchOrdersAsync } from "../Orders/OrderSlice";
 
@@ -19,10 +20,6 @@ const steps = ['Shipping address', 'Review your order', 'Payment details'];
 
 export default function CheckoutPage() {
 	const [activeStep, setActiveStep] = useState(0)
-	const [orderNumber, setOrderNumber] = useState(0)
-	const [loading, setLoading] = useState(false)
-
-	const dispatch = useAppDispatch()
 
 	const methods = useForm({
 		mode: "all",
@@ -77,21 +74,54 @@ export default function CheckoutPage() {
 		}
 	}
 
-	const handleNext = async (data: FieldValues) => {
-		const {nameOnCard, saveAddress, ...shippingAddress} = data
+	const [loading, setLoading] = useState(false)	
+	const [paymentMessage, setPaymentMessage] = useState("")
+	const [paymentSucceeded, setPaymentSucceeded] = useState(false)
+	const [orderNumber, setOrderNumber] = useState(0)	
 
-		if (isLastPage) {
-			setLoading(true)
-			try {
+	const dispatch = useAppDispatch()
+	const {basket} = useAppSelector(state => state.basket)
+	const stripe = useStripe()
+	const elements = useElements()
+
+	async function submitOrder(data: FieldValues) {
+		if (!stripe || !elements) return; // Stripe is not ready
+		setLoading(true)
+		const {nameOnCard, saveAddress, ...shippingAddress} = data
+		try {
+			const cardElement = elements.getElement(CardNumberElement)
+			const paymentResult = await stripe.confirmCardPayment(basket?.clientSecret!, {
+				payment_method: {
+					card: cardElement!,
+					billing_details: {
+						name: nameOnCard
+					}
+				}
+			})
+			console.log(paymentResult)
+			if (paymentResult.paymentIntent?.status === "succeeded") {
+				setPaymentSucceeded(true)
+				setPaymentMessage("Thank you - we have received your fake payment!")
+
 				const newOrderNumber = await Agent.Orders.create({saveAddress, shippingAddress})
 				setOrderNumber(newOrderNumber)
 				dispatch(clearBasket())
 				dispatch(fetchOrdersAsync())
-				setActiveStep(activeStep + 1)
-			} catch(error) {
-				console.log(error)
+			} else {
+				setPaymentSucceeded(false)
+				setPaymentMessage(paymentResult.error?.message!)
 			}
+			setLoading(false)			
+			setActiveStep(activeStep + 1)				
+		} catch(error) {
+			console.log(error)
 			setLoading(false)
+		}
+	}
+
+	const handleNext = async (data: FieldValues) => {
+		if (isLastPage) {
+			await submitOrder(data)
 		} else {
 			setActiveStep(activeStep + 1)
 		}
@@ -118,13 +148,19 @@ export default function CheckoutPage() {
 					{activeStep === steps.length ? (
 						<>
 							<Typography variant="h5" gutterBottom>
-								Thank you for your order.
+								{paymentMessage}
 							</Typography>
-							<Typography variant="subtitle1">
-								Your order number is #{orderNumber}. We have not emailed your order
-								confirmation, and will not send you an update when your order has
-								shipped as this is a fake store!
-							</Typography>
+							{paymentSucceeded ? (
+								<Typography variant="subtitle1">
+									Your order number is #{orderNumber}. We have not emailed your order
+									confirmation, and will not send you an update when your order has
+									shipped as this is a fake store!
+								</Typography>
+							) : (
+								<Button variant="contained" onClick={handleBack}>
+									Go back and try again
+								</Button>
+							)}
 						</>
 					) : (
 						<form onSubmit={methods.handleSubmit(handleNext)}>
