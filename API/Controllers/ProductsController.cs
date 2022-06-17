@@ -8,6 +8,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers {
     public class ProductsController: BaseApiController {
@@ -27,7 +28,7 @@ namespace API.Controllers {
             return products;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetProduct")]
         public async Task<ActionResult<Product>> GetProduct(int id) {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
@@ -39,6 +40,18 @@ namespace API.Controllers {
 			var brands = await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
 			var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
 			return Ok(new {brands, types});
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
+		public async Task<ActionResult<Product>> CreateProduct(Product product) {
+			_context.Products.Add(product);
+
+			var result = await _context.SaveChangesAsync();
+
+			if (result > 0) return CreatedAtRoute("GetProduct", new {Id = product.Id}, product);
+
+			return BadRequest(new ProblemDetails{Title = "Problem creating a new product."});
 		}
     }
 }
