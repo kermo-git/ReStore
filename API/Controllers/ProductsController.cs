@@ -3,16 +3,22 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
-using Microsoft.AspNetCore.Authorization;
+using API.DTOs;
 
 namespace API.Controllers {
     public class ProductsController: BaseApiController {
-        public ProductsController(StoreContext context): base(context) {}
+        private readonly IMapper _mapper;
+
+        public ProductsController(StoreContext context, IMapper mapper): base(context) {
+            this._mapper = mapper;
+		}
 
         [HttpGet]
         public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] ProductParams args) {
@@ -44,7 +50,8 @@ namespace API.Controllers {
 
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
-		public async Task<ActionResult<Product>> CreateProduct(Product product) {
+		public async Task<ActionResult<Product>> CreateProduct(CreateProductDTO productDTO) {
+			var product = _mapper.Map<Product>(productDTO);
 			_context.Products.Add(product);
 
 			var result = await _context.SaveChangesAsync();

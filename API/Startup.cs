@@ -16,6 +16,7 @@ using API.Data;
 using API.Entities;
 using API.Middleware;
 using API.Services;
+using API.RequestHelpers;
 
 namespace API {
     public class Startup {
@@ -29,6 +30,7 @@ namespace API {
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddControllers();
+			services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
