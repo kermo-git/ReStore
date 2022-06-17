@@ -60,5 +60,19 @@ namespace API.Controllers {
 
 			return BadRequest(new ProblemDetails{Title = "Problem creating a new product."});
 		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPut]
+		public async Task<ActionResult> UpdateProduct(UpdateProductDTO productDTO) {
+			var product = await _context.Products.FindAsync(productDTO.Id);
+			if (product == null) return NotFound();
+
+			_mapper.Map(productDTO, product);
+
+			var result = await _context.SaveChangesAsync();
+			if (result > 0) return NoContent();
+
+			return BadRequest(new ProblemDetails{Title = "Problem updating a product"});
+		}
     }
 }
