@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material"
 
-import { MetaData } from "../Models/Pagination";
+import { MetaData } from "../Models/Pagination"
 
 interface Props {
 	metaData: MetaData,

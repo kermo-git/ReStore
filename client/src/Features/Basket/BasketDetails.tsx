@@ -1,8 +1,8 @@
-import { Grid } from '@mui/material';
+import { Grid } from '@mui/material'
 
-import { BasketItem } from '../../App/Models/Basket';
-import BasketSummary from './BasketSummary';
-import BasketTable from './BasketTable';
+import { BasketItem } from '../../App/Models/Basket'
+import BasketSummary from './BasketSummary'
+import BasketTable from './BasketTable'
 
 interface Props {
 	items: BasketItem[],
@@ -20,5 +20,5 @@ export default function BasketDetails({items, canEdit}: Props) {
 				</Grid>
 			</Grid>				
 		</>
-	);
+	)
 }

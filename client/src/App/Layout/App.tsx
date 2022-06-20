@@ -1,8 +1,10 @@
-import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 import { useCallback, useEffect, useState } from "react"
 import { Route, Routes } from "react-router-dom"
+
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 
 import AboutPage from "../../Features/About/AboutPage"
 import Catalog from "../../Features/Catalog/Catalog"
@@ -35,7 +37,7 @@ function App() {
 			await dispatch(fetchBasketAsync())
 			await dispatch(fetchCurrentUser())
 		} catch(error) {
-			console.log(error);
+			console.log(error)
 		}
 	}, [dispatch])
 

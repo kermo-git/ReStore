@@ -1,7 +1,7 @@
-import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography'
 
-import { useAppSelector } from '../../App/Store/ConfigureStore';
-import BasketDetails from '../Basket/BasketDetails';
+import { useAppSelector } from '../../App/Store/ConfigureStore'
+import BasketDetails from '../Basket/BasketDetails'
 
 export default function Review() {
 	const {basket} = useAppSelector(state => state.basket)
@@ -13,5 +13,5 @@ export default function Review() {
 			</Typography>
 			{basket && <BasketDetails items={basket.items} canEdit={false}/>}			
 		</>
-	);
+	)
 }

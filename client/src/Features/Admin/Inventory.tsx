@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import { Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material"
+import { Edit, Delete } from "@mui/icons-material"
 
-import { formatPrice } from "../../App/Utils";
-import { useProducts } from "../../App/Hooks/UseProducts";
-import { useAppDispatch } from "../../App/Store/ConfigureStore";
-import AppPagination from "../../App/components/AppPagination";
-import { setMetaData } from "../Catalog/CatalogSlice";
-import ProductForm from "./ProductForm";
-import { Product } from "../../App/Models/Product";
+import { formatPrice } from "../../App/Utils"
+import { useProducts } from "../../App/Hooks/UseProducts"
+import { useAppDispatch } from "../../App/Store/ConfigureStore"
+import AppPagination from "../../App/components/AppPagination"
+import { setMetaData } from "../Catalog/CatalogSlice"
+import ProductForm from "./ProductForm"
+import { Product } from "../../App/Models/Product"
 
 export default function Inventory() {
 	const {products, metaData} = useProducts()

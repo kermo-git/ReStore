@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 
-import { Typography, Grid, Paper, Box, Button } from "@mui/material";
+import { Typography, Grid, Paper, Box, Button } from "@mui/material"
 
-import AppTextInput from "../../App/components/AppTextInput";
-import { Product } from "../../App/Models/Product";
-import { useEffect } from "react";
+import AppTextInput from "../../App/components/AppTextInput"
+import { Product } from "../../App/Models/Product"
+import { useEffect } from "react"
 
 interface Props {
 	product?: Product
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function ProductForm({product, cancelEdit}: Props) {
-	const { control, reset } = useForm();
+	const { control, reset } = useForm()
 
 	useEffect(() => {
 		if (product) reset(product)

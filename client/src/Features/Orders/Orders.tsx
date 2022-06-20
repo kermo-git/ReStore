@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
-import Loading from "../../App/Layout/Loading";
-import { formatPrice } from "../../App/Utils";
-import { useOrders } from "../../App/Hooks/UseOrders";
+import Loading from "../../App/Layout/Loading"
+import { formatPrice } from "../../App/Utils"
+import { useOrders } from "../../App/Hooks/UseOrders"
 
 export default function Orders() {
 	const {orders, status} = useOrders()

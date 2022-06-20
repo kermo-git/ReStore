@@ -1,6 +1,6 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom"
 
-import { useAppSelector } from "../Store/ConfigureStore";
+import { useAppSelector } from "../Store/ConfigureStore"
 
 export function PrivateRoute({ children }: { children: JSX.Element }) {
 	const {user} = useAppSelector(state => state.account)
@@ -9,5 +9,5 @@ export function PrivateRoute({ children }: { children: JSX.Element }) {
 	if (!user) {
 		return <Navigate to="/login" state={{from: location}} replace/>
 	}
-	return children;
+	return children
 }

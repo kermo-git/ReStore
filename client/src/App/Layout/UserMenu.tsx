@@ -1,28 +1,28 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { Fade } from '@mui/material';
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import { Fade } from '@mui/material'
 
-import { useAppDispatch, useAppSelector } from '../Store/ConfigureStore';
-import { logout } from '../../Features/Account/AccountSlice';
-import { clearBasket } from '../../Features/Basket/BasketSlice';
-import { clearOrders } from '../../Features/Orders/OrderSlice';
+import { useAppDispatch, useAppSelector } from '../Store/ConfigureStore'
+import { logout } from '../../Features/Account/AccountSlice'
+import { clearBasket } from '../../Features/Basket/BasketSlice'
+import { clearOrders } from '../../Features/Orders/OrderSlice'
 
 export default function UserMenu() {
 	const {user} = useAppSelector(state => state.account)
 	const dispatch = useAppDispatch()
 
-	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
 	function openMenuClick(event: any) {
-		setAnchorEl(event.currentTarget);
-	};
+		setAnchorEl(event.currentTarget)
+	}
 	function closeMenu() {
-		setAnchorEl(null);
-	};
+		setAnchorEl(null)
+	}
 	function logoutClick() {
 		dispatch(logout())
 		dispatch(clearBasket())
@@ -47,5 +47,5 @@ export default function UserMenu() {
 			<MenuItem component={Link} to="/orders">My orders</MenuItem>
 			<MenuItem onClick={logoutClick}>Logout</MenuItem>
 		</Menu>
-	</>);
+	</>)
 }
