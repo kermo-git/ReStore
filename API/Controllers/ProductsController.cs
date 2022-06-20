@@ -78,14 +78,29 @@ namespace API.Controllers {
 
 		[Authorize(Roles = "Admin")]
 		[HttpPut]
-		public async Task<ActionResult> UpdateProduct(UpdateProductDTO productDTO) {
+		public async Task<ActionResult<Product>> UpdateProduct([FromForm] UpdateProductDTO productDTO) {
 			var product = await _context.Products.FindAsync(productDTO.Id);
 			if (product == null) return NotFound();
 
 			_mapper.Map(productDTO, product);
 
+			if (productDTO.File != null) {
+				var uploadResult = await _imageService.UploadImageAsync(productDTO.File);
+
+				if (uploadResult.Error != null) {
+					return BadRequest(new ProblemDetails{
+						Title = uploadResult.Error.Message
+					});
+				}
+				if (!string.IsNullOrEmpty(product.PublicId))
+					await _imageService.DeleteImageAsync(product.PublicId);
+
+				product.PictureURL = uploadResult.SecureUrl.ToString();
+				product.PublicId = uploadResult.PublicId;
+			}
+
 			var result = await _context.SaveChangesAsync();
-			if (result > 0) return NoContent();
+			if (result > 0) return Ok(product);
 
 			return BadRequest(new ProblemDetails{Title = "Problem updating a product"});
 		}
@@ -95,6 +110,9 @@ namespace API.Controllers {
 		public async Task<ActionResult> DeleteProduct(int id) {
 			var product = await _context.Products.FindAsync(id);
 			if (product == null) return NotFound();
+
+			if (!string.IsNullOrEmpty(product.PublicId))
+				await _imageService.DeleteImageAsync(product.PublicId);
 
 			_context.Products.Remove(product);
 
