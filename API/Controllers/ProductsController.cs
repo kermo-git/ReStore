@@ -11,13 +11,16 @@ using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
 using API.DTOs;
+using API.Services;
 
 namespace API.Controllers {
     public class ProductsController: BaseApiController {
         private readonly IMapper _mapper;
+		private readonly ImageService _imageService;
 
-        public ProductsController(StoreContext context, IMapper mapper): base(context) {
+		public ProductsController(StoreContext context, IMapper mapper, ImageService imageService): base(context) {
             this._mapper = mapper;
+			this._imageService = imageService;
 		}
 
         [HttpGet]
@@ -50,8 +53,20 @@ namespace API.Controllers {
 
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
-		public async Task<ActionResult<Product>> CreateProduct(CreateProductDTO productDTO) {
+		public async Task<ActionResult<Product>> CreateProduct([FromForm] CreateProductDTO productDTO) {
 			var product = _mapper.Map<Product>(productDTO);
+
+			if (productDTO.File != null) {
+				var uploadResult = await _imageService.UploadImageAsync(productDTO.File);
+
+				if (uploadResult.Error != null) {
+					return BadRequest(new ProblemDetails{
+						Title = uploadResult.Error.Message
+					});
+				}
+				product.PictureURL = uploadResult.SecureUrl.ToString();
+				product.PublicId = uploadResult.PublicId;
+			}
 			_context.Products.Add(product);
 
 			var result = await _context.SaveChangesAsync();

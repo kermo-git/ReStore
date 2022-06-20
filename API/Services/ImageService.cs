@@ -14,8 +14,8 @@ namespace API.Services {
 		public ImageService(IConfiguration config) {
 			var account = new Account(
 				config["Cloudinary:CloudName"],
-				config["Cloudinary:ApiSecret"],
-				config["Cloudinary:ApiKey"]							
+				config["Cloudinary:ApiKey"],				
+				config["Cloudinary:ApiSecret"]						
 			);
 			_cloudinary = new Cloudinary(account);
 		}
