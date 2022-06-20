@@ -1,4 +1,3 @@
-import { useCallback, useEffect } from "react"
 import { Link, useParams } from "react-router-dom"
 
 import { Box, Button, Typography } from "@mui/material"
@@ -6,22 +5,14 @@ import { Box, Button, Typography } from "@mui/material"
 import NotFound from "../../App/Errors/NotFound"
 import Loading from "../../App/Layout/Loading"
 import { BasketItem } from "../../App/Models/Basket"
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
 import BasketDetails from "../Basket/BasketDetails"
-import { fetchOrdersAsync } from "./OrderSlice"
+import { useOrders } from "../../App/Hooks/UseOrders"
 
 export default function OrderDetailsPage() {
 	const {id} = useParams<{id: string}>()
 	const idAsNumber = parseInt(id || "")
 
-	const dispatch = useAppDispatch()
-	const {orders, status} = useAppSelector(state => state.order)
-
-	const init = useCallback(async () => {
-		if (orders === null) await dispatch(fetchOrdersAsync())
-	}, [dispatch])
-	useEffect(() => { init() }, [init])	
-
+	const {orders, status} = useOrders()
 	if (status === "pending") return <Loading message="Loading orders..."/>
 
 	const order = orders && orders.find(order => order.id === idAsNumber)
