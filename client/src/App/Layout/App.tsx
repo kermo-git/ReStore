@@ -23,6 +23,7 @@ import { PrivateRoute } from "./PrivateRoute"
 import Orders from "../../Features/Orders/Orders"
 import OrderDetailsPage from "../../Features/Orders/OrderDetails"
 import CheckoutWrapper from "../../Features/Checkout/CheckoutWrapper"
+import Inventory from "../../Features/Admin/Inventory"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -81,6 +82,10 @@ function App() {
 								path="/orders" 
 								element={<PrivateRoute><Orders/></PrivateRoute>}
 							/>
+							<Route 
+								path="/inventory" 
+								element={<PrivateRoute><Inventory/></PrivateRoute>}
+							/>							
 							<Route 
 								path="/orders/:id" 
 								element={<PrivateRoute><OrderDetailsPage/></PrivateRoute>}

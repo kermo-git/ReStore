@@ -55,6 +55,26 @@ export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
 	const {user} = useAppSelector(state => state.account)
 	const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
 
+	let middleLinks = [
+		{
+			title: "catalog",
+			path: "/catalog"
+		}, {
+			title: "about",
+			path: "/about"
+		}, {
+			title: "contact",
+			path: "/contact"
+		}
+	]
+
+	if (user) {
+		middleLinks.push({
+			title: "inventory",
+			path: "/inventory"
+		})
+	}
+
     return (
         <AppBar position="static">
             <Toolbar sx={flexBoxStyle}>
@@ -70,19 +90,8 @@ export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
                         label={isDarkMode ? "DARK MODE" : "LIGHT MODE"}
                     />
                 </Box>
-
-                <ToolbarLinks links={[
-                    {
-                        title: "catalog",
-                        path: "/catalog"
-                    }, {
-                        title: "about",
-                        path: "/about"
-                    }, {
-                        title: "contact",
-                        path: "/contact"
-                    }
-                ]}/>
+				
+                <ToolbarLinks links={middleLinks}/>
 
                 <Box sx={flexBoxStyle}>
                     <IconButton component={Link} to="/basket" size="large" sx={{color: "inherit"}}>
