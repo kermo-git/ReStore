@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 
@@ -6,6 +8,8 @@ import { useProducts } from "../../App/Hooks/UseProducts";
 import { useAppDispatch } from "../../App/Store/ConfigureStore";
 import AppPagination from "../../App/components/AppPagination";
 import { setMetaData } from "../Catalog/CatalogSlice";
+import ProductForm from "./ProductForm";
+import { Product } from "../../App/Models/Product";
 
 export default function Inventory() {
 	const {products, metaData} = useProducts()
@@ -15,10 +19,25 @@ export default function Inventory() {
 		dispatch(setMetaData({...metaData, currentPage: page}))
 	}
 
+	const [editMode, setEditMode] = useState(false)
+	const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined)
+
+	function editProduct(product: Product) {
+		setSelectedProduct(product)
+		setEditMode(true)
+	}
+	function cancelEdit() {
+		if (selectedProduct)
+			setSelectedProduct(undefined)
+		setEditMode(false)
+	}
+	
+	if (editMode) return <ProductForm product={selectedProduct} cancelEdit={cancelEdit}/>
+
 	return (<>
 		<Box display='flex' justifyContent='space-between'>
 			<Typography sx={{ p: 2 }} variant='h4'>Inventory</Typography>
-			<Button sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
+			<Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
 		</Box>
 		<TableContainer component={Paper}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -53,7 +72,7 @@ export default function Inventory() {
 							<TableCell align="center">{product.brand}</TableCell>
 							<TableCell align="center">{product.quantityInStock}</TableCell>
 							<TableCell align="right">
-								<Button startIcon={<Edit />} />
+								<Button onClick={() => editProduct(product)}startIcon={<Edit />} />
 								<Button startIcon={<Delete />} color='error' />
 							</TableCell>
 						</TableRow>
