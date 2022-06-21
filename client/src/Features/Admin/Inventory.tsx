@@ -2,14 +2,16 @@ import { useState } from "react"
 
 import { Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@mui/material"
 import { Edit, Delete } from "@mui/icons-material"
+import { LoadingButton } from "@mui/lab"
 
 import { formatPrice } from "../../App/Utils"
 import { useProducts } from "../../App/Hooks/UseProducts"
 import { useAppDispatch } from "../../App/Store/ConfigureStore"
 import AppPagination from "../../App/components/AppPagination"
-import { setMetaData } from "../Catalog/CatalogSlice"
+import { removeProduct, setMetaData } from "../Catalog/CatalogSlice"
 import ProductForm from "./ProductForm"
 import { Product } from "../../App/Models/Product"
+import Agent from "../../App/API/Agent"
 
 export default function Inventory() {
 	const {products, metaData} = useProducts()
@@ -21,17 +23,29 @@ export default function Inventory() {
 
 	const [editMode, setEditMode] = useState(false)
 	const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined)
-
+	
 	function editProduct(product: Product) {
 		setSelectedProduct(product)
 		setEditMode(true)
 	}
 	function cancelEdit() {
 		if (selectedProduct)
-			setSelectedProduct(undefined)
+		setSelectedProduct(undefined)
 		setEditMode(false)
 	}
 	
+	const [loading, setLoading] = useState(false)
+	const [target, setTarget] = useState(0)
+
+	function deleteProduct(id: number) {	
+		setLoading(true)
+		setTarget(id)
+
+		Agent.Admin.deleteProduct(id)
+			.then(() => dispatch(removeProduct(id)))
+			.catch(error => console.log(error))
+			.finally(() => setLoading(false))
+	}
 	if (editMode) return <ProductForm product={selectedProduct} cancelEdit={cancelEdit}/>
 
 	return (<>
@@ -55,8 +69,8 @@ export default function Inventory() {
 				<TableBody>
 					{products.map((product) => (
 						<TableRow
-						key={product.id}
-						sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+							key={product.id}
+							sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
 								{product.id}
@@ -73,7 +87,12 @@ export default function Inventory() {
 							<TableCell align="center">{product.quantityInStock}</TableCell>
 							<TableCell align="right">
 								<Button onClick={() => editProduct(product)}startIcon={<Edit />} />
-								<Button startIcon={<Delete />} color='error' />
+								<LoadingButton 
+									loading={loading && target === product.id}
+									onClick={() => deleteProduct(product.id)}
+									startIcon={<Delete />} 
+									color='error' 
+								/>
 							</TableCell>
 						</TableRow>
 					))}
