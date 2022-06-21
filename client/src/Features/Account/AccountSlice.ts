@@ -57,7 +57,15 @@ export const accountSlice = createSlice({
 			history.push("/")
 		},
 		setUser: (state, action) => {
-			state.user = action.payload
+			const token = action.payload.token
+			const middlePart = token.split(".")[1]
+			const claims = JSON.parse(atob(middlePart))
+			const roles = claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+
+			state.user = {
+				...action.payload, 
+				roles: (typeof(roles) === "string") ? [roles] : roles
+			}
 		}
 	},
 	extraReducers: (builder) => {
@@ -71,7 +79,15 @@ export const accountSlice = createSlice({
 			toast.error("Session expired, please log in again")
 		})
 		builder.addMatcher(isAnyOf(logInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action) => {
-			state.user = action.payload
+			const token = action.payload.token
+			const middlePart = token.split(".")[1]
+			const claims = JSON.parse(atob(middlePart))
+			const roles = claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+
+			state.user = {
+				...action.payload, 
+				roles: (typeof(roles) === "string") ? [roles] : roles
+			}
 		})
 	}
 })
