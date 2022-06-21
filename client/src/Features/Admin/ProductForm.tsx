@@ -1,5 +1,7 @@
 import { useEffect } from "react"
+
 import { FieldValues, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 import { Typography, Grid, Paper, Box, Button } from "@mui/material"
 
@@ -8,6 +10,7 @@ import { Product } from "../../App/Models/Product"
 import { useProducts } from "../../App/Hooks/UseProducts"
 import AppSelectList from "../../App/components/AppSelectList"
 import AppDropzone from "../../App/components/AppDropzone"
+import { validationSchema } from "./ProductValidation"
 
 interface Props {
 	product?: Product
@@ -15,7 +18,9 @@ interface Props {
 }
 
 export default function ProductForm({product, cancelEdit}: Props) {
-	const { control, reset, handleSubmit, watch } = useForm()
+	const { control, reset, handleSubmit, watch } = useForm({
+		resolver: yupResolver<any>(validationSchema)
+	})
 	const { brands, types } = useProducts()
 	const watchFile = watch("file", null)
 
