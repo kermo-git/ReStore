@@ -9,7 +9,7 @@ export function useOrders() {
 
 	const init = useCallback(async () => {
 		if (orders === null) await dispatch(fetchOrdersAsync())
-	}, [dispatch])
+	}, [dispatch, orders])
 	useEffect(() => { init() }, [init])
 
 	return {orders, status}
