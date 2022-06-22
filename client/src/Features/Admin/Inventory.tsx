@@ -8,7 +8,7 @@ import { formatPrice } from "../../App/Utils"
 import { useProducts } from "../../App/Hooks/UseProducts"
 import { useAppDispatch } from "../../App/Store/ConfigureStore"
 import AppPagination from "../../App/components/AppPagination"
-import { removeProduct, setMetaData } from "../Catalog/CatalogSlice"
+import { removeProduct, setPageNumber } from "../Catalog/CatalogSlice"
 import ProductForm from "./ProductForm"
 import { Product } from "../../App/Models/Product"
 import Agent from "../../App/API/Agent"
@@ -18,7 +18,7 @@ export default function Inventory() {
 	const dispatch = useAppDispatch()
 
 	function onPageChange(page: number) {
-		dispatch(setMetaData({...metaData, currentPage: page}))
+		dispatch(setPageNumber({pageNumber: page}))
 	}
 
 	const [editMode, setEditMode] = useState(false)

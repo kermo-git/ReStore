@@ -14,4 +14,6 @@ export interface ProductParams {
 	searchTerm?: string
 	brands: string[]
 	types: string[]
+	pageNumber: number
+    pageSize: number
 }

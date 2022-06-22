@@ -1,7 +1,7 @@
 import { Grid, Paper } from "@mui/material"
 
 import Loading from "../../App/Layout/Loading"
-import { setMetaData, setProductParams } from "./CatalogSlice"
+import { setPageNumber, setProductParams } from "./CatalogSlice"
 import ProductList from "./ProductList"
 import ProductSearch from "./ProductSearch"
 import RadioButtonGroup from "../../App/components/RadioButtonGroup"
@@ -66,7 +66,7 @@ export default function Catalog() {
 							<AppPagination
 								metaData={metaData}
 								onPageChange={(page) => {
-									dispatch(setMetaData({...metaData, currentPage: page}))
+									dispatch(setPageNumber({pageNumber: page}))
 								}}
 							/> 
 							: null
