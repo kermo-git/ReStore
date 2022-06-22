@@ -68,7 +68,7 @@ export default function Header({isDarkMode, toggleDarkMode}: HeaderProps) {
 		}
 	]
 
-	if (user) {
+	if (user && user.roles?.includes("Admin")) {
 		middleLinks.push({
 			title: "inventory",
 			path: "/inventory"

@@ -86,7 +86,7 @@ function App() {
 							/>
 							<Route 
 								path="/inventory" 
-								element={<PrivateRoute><Inventory/></PrivateRoute>}
+								element={<PrivateRoute roles={["Admin"]} children={<Inventory/>}/>}
 							/>							
 							<Route 
 								path="/orders/:id" 
