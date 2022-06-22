@@ -1,13 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Identity;
-
-using API.Entities;
-
 namespace API.Data {
-    public static class DbInitializer {
+	public static class DbInitializer {
         public static async Task Initialize(StoreContext context, UserManager<User> userManager) {
 			if (!userManager.Users.Any()) {
 				var bob = new User {

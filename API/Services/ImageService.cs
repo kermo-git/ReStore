@@ -1,6 +1,3 @@
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 
 using CloudinaryDotNet;

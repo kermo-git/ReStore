@@ -1,16 +1,6 @@
-using System;
-using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-using API.Data;
-using API.DTOs;
-using API.Entities;
-using API.Extensions;
-
 namespace API.Controllers {
-    public class BasketController: BaseApiController {
+	public class BasketController: BaseApiController {
 		public BasketController(StoreContext context): base(context) {}
 
 		[HttpGet(Name = "Getbasket")]

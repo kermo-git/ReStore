@@ -1,8 +1,6 @@
-using System;
-
 namespace API.RequestHelpers {
-	
-    public class PaginationParams {
+
+	public class PaginationParams {
         private const int MaxPageSize = 50;
 
 		public int PageNumber { get; set; } = 1;

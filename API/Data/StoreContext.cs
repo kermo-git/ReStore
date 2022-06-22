@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-using API.Entities;
 using API.Entities.OrderAggregate;
-
 namespace API.Data {
-    public class StoreContext: IdentityDbContext<User, Role, int> {
+	public class StoreContext: IdentityDbContext<User, Role, int> {
         public StoreContext(DbContextOptions options): base(options) {
         }
 

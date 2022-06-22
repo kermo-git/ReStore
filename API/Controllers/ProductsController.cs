@@ -1,20 +1,6 @@
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-
-using API.Data;
-using API.Entities;
-using API.Extensions;
-using API.RequestHelpers;
-using API.DTOs;
-using API.Services;
-
 namespace API.Controllers {
-    public class ProductsController: BaseApiController {
+	public class ProductsController: BaseApiController {
         private readonly IMapper _mapper;
 		private readonly ImageService _imageService;
 

@@ -2,8 +2,6 @@ using System.Text.Json;
 
 using Microsoft.AspNetCore.Http;
 
-using API.RequestHelpers;
-
 namespace API.Extensions {
 	public static class HttpExtensions {
 		

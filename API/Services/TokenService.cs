@@ -1,18 +1,8 @@
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-
-using API.Entities;
-
 namespace API.Services {
-    public class TokenService {
+	public class TokenService {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _config;
 		

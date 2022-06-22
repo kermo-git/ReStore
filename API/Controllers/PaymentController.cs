@@ -1,19 +1,8 @@
 using System.IO;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using Stripe;
-
-using API.Data;
-using API.DTOs;
-using API.Extensions;
-using API.Services;
 using API.Entities.OrderAggregate;
-
-namespace API.Controllers {
+namespace API.Controllers
+{
 	public class PaymentController: BaseApiController {
         private readonly PaymentService _paymentService;
         private readonly IConfiguration _config;

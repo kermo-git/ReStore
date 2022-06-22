@@ -1,19 +1,5 @@
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-using API.DTOs;
-using API.Entities;
-using API.Services;
-using API.Data;
-using API.Extensions;
-
 namespace API.Controllers {
-    public class AccountController: BaseApiController {
+	public class AccountController: BaseApiController {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
 

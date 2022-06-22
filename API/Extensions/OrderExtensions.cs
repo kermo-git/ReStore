@@ -1,12 +1,7 @@
-using System.Linq;
-
-using Microsoft.EntityFrameworkCore;
-
-using API.DTOs;
 using API.Entities.OrderAggregate;
 
 namespace API.Extensions {
-    public static class OrderExtensions {
+	public static class OrderExtensions {
         public static IQueryable<OrderDTO> ProjectOrderToDTO(this IQueryable<Order> query) {
 			return query.Select(order => new OrderDTO{
 				Id = order.Id,

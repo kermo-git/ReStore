@@ -1,18 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-
-using API.Data;
 using API.Entities.OrderAggregate;
-using API.DTOs;
-using API.Entities;
-using API.Extensions;
-
-namespace API.Controllers {
+namespace API.Controllers
+{
 	[Authorize]
     public class OrdersController: BaseApiController {
 		public OrdersController(StoreContext context): base(context) {}

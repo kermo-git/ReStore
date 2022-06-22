@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-
 namespace API.RequestHelpers {
 
-    public class PagedList<T>: List<T> {
+	public class PagedList<T>: List<T> {
         public PagedList(List<T> items, int totalCount, int pageNumber, int pageSize) {
 			MetaData = new MetaData {
 				CurrentPage = pageNumber,

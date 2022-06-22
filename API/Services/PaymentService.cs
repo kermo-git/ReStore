@@ -1,12 +1,4 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Configuration;
 using Stripe;
-
-using API.Entities;
 
 namespace API.Services {
 	public class PaymentService {

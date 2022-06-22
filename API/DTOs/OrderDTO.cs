@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 using API.Entities.OrderAggregate;
 
-namespace API.DTOs {
-    public class OrderDTO {
+namespace API.DTOs
+{
+	public class OrderDTO {
         public int Id { get; set; }
 		public string BuyerId { get; set; }
 		public ShippingAddress ShippingAddress { get; set; }

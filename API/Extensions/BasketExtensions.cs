@@ -1,10 +1,5 @@
-using System.Linq;
-
-using API.DTOs;
-using API.Entities;
-
 namespace API.Extensions {
-    public static class BasketExtensions {
+	public static class BasketExtensions {
         public static BasketDTO MapBasketToDTO(this Basket basket) {
 			return new BasketDTO{
 				Id = basket.Id,
