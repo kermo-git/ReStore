@@ -1,5 +1,3 @@
-using API.Entities.OrderAggregate;
-
 namespace API.Extensions {
 	public static class OrderExtensions {
         public static IQueryable<OrderDTO> ProjectOrderToDTO(this IQueryable<Order> query) {

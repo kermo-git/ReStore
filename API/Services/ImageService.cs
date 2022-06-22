@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 

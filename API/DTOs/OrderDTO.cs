@@ -1,7 +1,4 @@
-using API.Entities.OrderAggregate;
-
-namespace API.DTOs
-{
+namespace API.DTOs {
 	public class OrderDTO {
         public int Id { get; set; }
 		public string BuyerId { get; set; }

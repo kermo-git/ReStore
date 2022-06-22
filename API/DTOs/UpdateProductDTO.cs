@@ -1,9 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-using Microsoft.AspNetCore.Http;
-
-namespace API.DTOs
-{
+namespace API.DTOs {
 	public class UpdateProductDTO {
 		[Required]
 		public int Id { get; set; }

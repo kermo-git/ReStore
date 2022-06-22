@@ -1,6 +1,5 @@
 using System.IO;
 using Stripe;
-using API.Entities.OrderAggregate;
 namespace API.Controllers
 {
 	public class PaymentController: BaseApiController {

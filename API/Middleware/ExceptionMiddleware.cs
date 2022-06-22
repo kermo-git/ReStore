@@ -1,7 +1,5 @@
 using System.Text.Json;
 
-using Microsoft.AspNetCore.Http;
-
 namespace API.Middleware {
 	public class ExceptionMiddleware {
         private readonly RequestDelegate _next;

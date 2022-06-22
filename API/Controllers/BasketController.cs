@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 namespace API.Controllers {
 	public class BasketController: BaseApiController {
 		public BasketController(StoreContext context): base(context) {}

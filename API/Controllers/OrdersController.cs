@@ -1,6 +1,4 @@
-using API.Entities.OrderAggregate;
-namespace API.Controllers
-{
+namespace API.Controllers {
 	[Authorize]
     public class OrdersController: BaseApiController {
 		public OrdersController(StoreContext context): base(context) {}

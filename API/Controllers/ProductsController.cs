@@ -1,4 +1,5 @@
 using AutoMapper;
+
 namespace API.Controllers {
 	public class ProductsController: BaseApiController {
         private readonly IMapper _mapper;

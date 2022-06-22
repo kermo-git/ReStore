@@ -16,6 +16,7 @@ global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Http;
 
 global using API.Data;
 global using API.Entities;
@@ -24,3 +25,4 @@ global using API.Services;
 global using API.Middleware;
 global using API.DTOs;
 global using API.Extensions;
+global using API.Entities.OrderAggregate;
