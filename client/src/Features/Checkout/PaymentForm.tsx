@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form'
 
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/react-stripe-js';
-import { StripeElementType } from '@stripe/stripe-js';
+import { CardCvcElement, CardExpiryElement, CardNumberElement } from '@stripe/react-stripe-js'
+import { StripeElementType } from '@stripe/stripe-js'
 
-import AppTextInput from '../../App/components/AppTextInput';
-import StripeInput from './StripeInput';
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
+
+import AppTextInput from '../../App/components/AppTextInput'
+import StripeInput from './StripeInput'
 
 interface Props {
 	cardState: {elementError: {[key in StripeElementType]?: string}},
@@ -98,5 +98,5 @@ export default function PaymentForm({cardState, onCardInputChange}: Props) {
 				</Grid>
 			</Grid>
 		</>
-	);
+	)
 }

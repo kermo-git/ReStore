@@ -16,6 +16,7 @@ using API.Data;
 using API.Entities;
 using API.Middleware;
 using API.Services;
+using API.RequestHelpers;
 
 namespace API {
     public class Startup {
@@ -29,6 +30,7 @@ namespace API {
         public void ConfigureServices(IServiceCollection services) {
 
             services.AddControllers();
+			services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
@@ -106,6 +108,7 @@ namespace API {
 			services.AddAuthorization();
 			services.AddScoped<TokenService>();
 			services.AddScoped<PaymentService>();
+			services.AddScoped<ImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-import { FormControlLabel, Checkbox, FormGroup } from "@mui/material";
+import { FormControlLabel, Checkbox, FormGroup } from "@mui/material"
 
 interface Props {
 	items: string[]

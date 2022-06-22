@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useState } from "react"
 
-import { Box, Button, Paper, Step, StepLabel, Stepper, Typography } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { StripeElementType } from "@stripe/stripe-js";
-import { CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { FieldValues, FormProvider, useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import AddressForm from "./AddressForm";
-import PaymentForm from "./PaymentForm";
-import Review from "./Review";
-import validationSchemas from "./CheckoutValidation";
-import Agent from "../../App/API/Agent";
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { clearBasket } from "../Basket/BasketSlice";
-import { fetchOrdersAsync } from "../Orders/OrderSlice";
+import { StripeElementType } from "@stripe/stripe-js"
+import { CardNumberElement, useElements, useStripe } from "@stripe/react-stripe-js"
 
-const steps = ['Shipping address', 'Review your order', 'Payment details'];
+import { Box, Button, Paper, Step, StepLabel, Stepper, Typography } from "@mui/material"
+import { LoadingButton } from "@mui/lab"
+
+import AddressForm from "./AddressForm"
+import PaymentForm from "./PaymentForm"
+import Review from "./Review"
+import validationSchemas from "./CheckoutValidation"
+import Agent from "../../App/API/Agent"
+import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore"
+import { clearBasket } from "../Basket/BasketSlice"
+import { fetchOrdersAsync } from "../Orders/OrderSlice"
+
+const steps = ['Shipping address', 'Review your order', 'Payment details']
 
 export default function CheckoutPage() {
 	const [activeStep, setActiveStep] = useState(0)
@@ -64,13 +66,13 @@ export default function CheckoutPage() {
 	function getStepContent(step: number) {
 		switch (step) {
 			case 0:
-				return <AddressForm />;
+				return <AddressForm />
 			case 1:
-				return <Review />;
+				return <Review />
 			case 2:
-				return <PaymentForm cardState={cardState} onCardInputChange={onCardInputChange}/>;
+				return <PaymentForm cardState={cardState} onCardInputChange={onCardInputChange}/>
 			default:
-				throw new Error('Unknown step');
+				throw new Error('Unknown step')
 		}
 	}
 
@@ -85,7 +87,7 @@ export default function CheckoutPage() {
 	const elements = useElements()
 
 	async function submitOrder(data: FieldValues) {
-		if (!stripe || !elements) return; // Stripe is not ready
+		if (!stripe || !elements) return // Stripe is not ready
 		setLoading(true)
 		const {nameOnCard, saveAddress, ...shippingAddress} = data
 		try {
@@ -125,11 +127,11 @@ export default function CheckoutPage() {
 		} else {
 			setActiveStep(activeStep + 1)
 		}
-	};
+	}
 
 	const handleBack = () => {
-		setActiveStep(activeStep - 1);
-	};
+		setActiveStep(activeStep - 1)
+	}
 
 	return (
 		<FormProvider {...methods}>
@@ -186,5 +188,5 @@ export default function CheckoutPage() {
 				</>
 			</Paper>
 		</FormProvider>
-	);
+	)
 }

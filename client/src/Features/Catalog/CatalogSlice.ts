@@ -17,14 +17,13 @@ interface CatalogState {
 
 const productsAdapter = createEntityAdapter<Product>()
 
-function getURLSearchParams(productParams: ProductParams, metaData?: MetaData) {
+function getURLSearchParams(productParams: ProductParams) {
 	const urlParams = new URLSearchParams()
+
+	urlParams.append("pageNumber", productParams.pageNumber.toString())
+	urlParams.append("pageSize", productParams.pageSize.toString())
 	urlParams.append("orderBy", productParams.orderBy)
 
-	if (metaData) {
-		urlParams.append("pageNumber", metaData.currentPage.toString())
-		urlParams.append("pageSize", metaData.pageSize.toString())
-	}
 	if (productParams.searchTerm)
 		urlParams.append("searchTerm", productParams.searchTerm)		
 	if (productParams.brands.length > 0)
@@ -38,9 +37,8 @@ function getURLSearchParams(productParams: ProductParams, metaData?: MetaData) {
 export const fetchProductsAsync = createAsyncThunk<Product[], void, {state: RootState}>(
 	"catalog/fetchProductsAsync",
 	async (_, thunkAPI) => {
+		const params = getURLSearchParams(thunkAPI.getState().catalog.productParams)
 		try {
-			const catalogState = thunkAPI.getState().catalog
-			const params = getURLSearchParams(catalogState.productParams, catalogState.metaData)
 			const response = await Agent.Catalog.list(params)
 			thunkAPI.dispatch(setMetaData(response.metaData))
 			return response.items
@@ -94,18 +92,26 @@ export const catalogSlice = createSlice({
 	}),
 	reducers: {
 		setMetaData: function(state, action) {
-			state.productsLoaded = false
 			state.metaData = action.payload
+		},
+		setPageNumber: function(state, action) {
+			state.productsLoaded = false
+			state.productParams = {...state.productParams, ...action.payload}
 		},
 		setProductParams: function(state, action) {
 			state.productsLoaded = false
-			state.productParams = {...state.productParams, ...action.payload}
-			if (state.metaData) {
-				state.metaData.currentPage = 1
-			}
+			state.productParams = {...state.productParams, ...action.payload, pageNumber: 1}
 		},
 		resetProductParams: function(state) {
 			state.productParams = initProductParams()
+		},
+		setProduct: function(state, action) {
+			productsAdapter.upsertOne(state, action.payload)
+			state.productsLoaded = false
+		},
+		removeProduct: function(state, action) {
+			productsAdapter.removeOne(state, action.payload)
+			state.productsLoaded = false
 		}
 	},
 	extraReducers: (builder) => {
@@ -146,4 +152,4 @@ export const catalogSlice = createSlice({
 })
 
 export const productSelectors = productsAdapter.getSelectors((state: RootState) => state.catalog)
-export const {setMetaData, setProductParams, resetProductParams} = catalogSlice.actions
+export const {setMetaData, setPageNumber, setProductParams, resetProductParams, setProduct, removeProduct} = catalogSlice.actions

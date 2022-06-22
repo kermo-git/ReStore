@@ -1,6 +1,6 @@
-import { forwardRef, Ref, useImperativeHandle, useRef } from "react";
+import { forwardRef, Ref, useImperativeHandle, useRef } from "react"
 
-import { InputBaseComponentProps } from "@mui/material";
+import { InputBaseComponentProps } from "@mui/material"
 
 interface Props extends InputBaseComponentProps {}
 

@@ -1,21 +1,13 @@
-import { useEffect, useCallback } from "react"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button } from "@mui/material"
 
-import Loading from "../../App/Layout/Loading";
-import { formatPrice } from "../../App/Utils";
-import { useAppDispatch, useAppSelector } from "../../App/Store/ConfigureStore";
-import { fetchOrdersAsync } from "./OrderSlice";
+import Loading from "../../App/Layout/Loading"
+import { formatPrice } from "../../App/Utils"
+import { useOrders } from "../../App/Hooks/UseOrders"
 
 export default function Orders() {
-	const dispatch = useAppDispatch()
-	const {orders, status} = useAppSelector(state => state.order)
-
-	const init = useCallback(async () => {
-		if (orders === null) await dispatch(fetchOrdersAsync())
-	}, [dispatch])
-	useEffect(() => { init() }, [init])
+	const {orders, status} = useOrders()
 
 	if (status === "pending") return <Loading message="Loading orders..."/>
 

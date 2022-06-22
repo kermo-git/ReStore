@@ -1,18 +1,18 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { FieldValues, useForm } from 'react-hook-form'
 
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { Paper } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { LoadingButton } from '@mui/lab';
+import Avatar from '@mui/material/Avatar'
+import TextField from '@mui/material/TextField'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { Paper } from '@mui/material'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { LoadingButton } from '@mui/lab'
 
-import { useAppDispatch } from '../../App/Store/ConfigureStore';
-import { logInUser } from './AccountSlice';
+import { useAppDispatch } from '../../App/Store/ConfigureStore'
+import { logInUser } from './AccountSlice'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -26,7 +26,7 @@ export default function Login() {
 			const from = (location.state as any)?.from?.pathname || "/catalog"
 			navigate(from, {replace: true})	
 		} catch(error) {
-			console.log(error);
+			console.log(error)
 		}
 	}
 
@@ -84,5 +84,5 @@ export default function Login() {
 				</Grid>
 			</Box>
 		</Container>
-	);
+	)
 }

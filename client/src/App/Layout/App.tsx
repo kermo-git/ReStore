@@ -1,8 +1,10 @@
-import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 import { useCallback, useEffect, useState } from "react"
 import { Route, Routes } from "react-router-dom"
+
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+
+import { Container, createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 
 import AboutPage from "../../Features/About/AboutPage"
 import Catalog from "../../Features/Catalog/Catalog"
@@ -23,6 +25,7 @@ import { PrivateRoute } from "./PrivateRoute"
 import Orders from "../../Features/Orders/Orders"
 import OrderDetailsPage from "../../Features/Orders/OrderDetails"
 import CheckoutWrapper from "../../Features/Checkout/CheckoutWrapper"
+import Inventory from "../../Features/Admin/Inventory"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -34,7 +37,7 @@ function App() {
 			await dispatch(fetchBasketAsync())
 			await dispatch(fetchCurrentUser())
 		} catch(error) {
-			console.log(error);
+			console.log(error)
 		}
 	}, [dispatch])
 
@@ -81,6 +84,10 @@ function App() {
 								path="/orders" 
 								element={<PrivateRoute><Orders/></PrivateRoute>}
 							/>
+							<Route 
+								path="/inventory" 
+								element={<PrivateRoute roles={["Admin"]} children={<Inventory/>}/>}
+							/>							
 							<Route 
 								path="/orders/:id" 
 								element={<PrivateRoute><OrderDetailsPage/></PrivateRoute>}

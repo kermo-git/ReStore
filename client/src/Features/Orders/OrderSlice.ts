@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-import Agent from "../../App/API/Agent";
-import { Order } from "../../App/Models/Order";
+import Agent from "../../App/API/Agent"
+import { Order } from "../../App/Models/Order"
 
 interface OrderState {
 	orders: Order[] | null
@@ -43,7 +43,7 @@ export const orderSlice = createSlice({
 		})
 		builder.addCase(fetchOrdersAsync.rejected, (state, action) => {
 			state.status = "idle"
-			console.log(action.payload);
+			console.log(action.payload)
 		})
 	}
 })

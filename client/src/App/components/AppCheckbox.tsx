@@ -1,5 +1,5 @@
-import { Checkbox, FormControlLabel } from "@mui/material";
-import { useController, UseControllerProps } from "react-hook-form";
+import { Checkbox, FormControlLabel } from "@mui/material"
+import { useController, UseControllerProps } from "react-hook-form"
 
 interface Props extends UseControllerProps {
 	label: string,

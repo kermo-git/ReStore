@@ -1,9 +1,9 @@
-import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material"
 
 interface Props {
 	options: {
-		value: string;
-		label: string;
+		value: string
+		label: string
 	}[]
 
 	selectedValue: string

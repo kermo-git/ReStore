@@ -44,6 +44,9 @@ axios.interceptors.response.use(
             case 401:
                 toast.error(data.title)
                 break
+            case 403:
+                toast.error("You are not allowed to do that!")
+                break
             case 500:
                 history.push("/server-error", data)
                 break
@@ -60,7 +63,13 @@ const requests = {
     get: (url: string, params?: URLSearchParams) => axios.get(url, {params}).then(responseBody),
     post: (url: string, body?: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body?: {}) => axios.put(url, body).then(responseBody),
-    delete: (url: string) => axios.delete(url).then(responseBody)  
+    delete: (url: string) => axios.delete(url).then(responseBody),
+	postForm: (url: string, data: FormData) => axios.post(url, data, {
+		headers: {"Content-type": "multipart/form-data"}
+	}).then(responseBody),
+	putForm: (url: string, data: FormData) => axios.put(url, data, {
+		headers: {"Content-type": "multipart/form-data"}
+	}).then(responseBody)
 }
 
 const Catalog = {
@@ -100,12 +109,27 @@ const Payment = {
 	createPaymentIntent: () => requests.post("payment")
 }
 
+function createFormData(item: any) {
+	const result = new FormData()
+	for (const key in item) {
+		result.append(key, item[key])
+	}
+	return result
+}
+
+const Admin = {
+	createProduct: (product: any) => requests.postForm("products", createFormData(product)),
+	updateProduct: (product: any) => requests.putForm("products", createFormData(product)),
+	deleteProduct: (id: number) => requests.delete("products/" + id)
+}
+
 const Agent = {
 	Catalog,
 	Basket,	
     TestErrors,
 	Account,
 	Orders,
-	Payment
+	Payment,
+	Admin
 }
 export default Agent

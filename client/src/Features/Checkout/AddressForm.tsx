@@ -1,10 +1,10 @@
-import { useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form'
 
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
-import AppTextInput from '../../App/components/AppTextInput';
-import AppCheckbox from '../../App/components/AppCheckbox';
+import AppTextInput from '../../App/components/AppTextInput'
+import AppCheckbox from '../../App/components/AppCheckbox'
 
 export default function AddressForm() {
 	const {control, formState} = useFormContext()
@@ -44,5 +44,5 @@ export default function AddressForm() {
 				/>
 			</Grid>
 		</Grid>
-	</>);
+	</>)
 }
